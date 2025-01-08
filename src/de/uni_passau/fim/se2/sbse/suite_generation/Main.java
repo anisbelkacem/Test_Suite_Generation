@@ -38,7 +38,7 @@ public class Main implements Callable<Integer> {
     @CommandLine.Option(
             names = {"-f", "--max-evaluations"},
             description = "The maximum number of fitness evaluations each algorithm should perform.",
-            defaultValue = "600")
+            defaultValue = "500")
     private int maxEvaluations;
 
     @CommandLine.Option(
