@@ -341,47 +341,48 @@ public final class BranchTracer implements IBranchTracer {
     // NOTE: The name and signature of this method must not be changed because they're hard-coded
     // in instrumentMethodEntry() and instrumentBranchNode().
     public void passedBranch(final int i, final int opcode, final int trueBranch, final int falseBranch) {
-    final double distanceTrue;
-    final double distanceFalse;
-
-    switch (opcode) {
-        case 153: // ifeq (i == 0)
-            distanceTrue = Math.abs(i); 
-            distanceFalse = i != 0 ? 0.0 : 1.0;
-            break;
-
-        case 154: // ifne (i != 0)
-            distanceTrue = i != 0 ? 0.0 : 1.0; 
-            distanceFalse = Math.abs(i); 
-            break;
-
-        case 155: // iflt (i < 0)
-            distanceTrue = i < 0 ? 0.0 : i;
-            distanceFalse = i >= 0 ? 0.0 : Math.abs(i); 
-            break;
-
-        case 156: // ifge (i >= 0)
-            distanceTrue = i >= 0 ? 0.0 : Math.abs(i); 
-            distanceFalse = i < 0 ? 0.0 : i; 
-            break;
-
-        case 157: // ifgt (i > 0)
-            distanceTrue = i > 0 ? 0.0 : -i + 1; 
-            distanceFalse = i <= 0 ? 0.0 : i; 
-            break;
-
-        case 158: // ifle (i <= 0)
-            distanceTrue = i <= 0 ? 0.0 : i - 1; 
-            distanceFalse = i > 0 ? 0.0 : Math.abs(i); 
-            break;
-
-        default:
-            throw new IllegalArgumentException("Unknown opcode: " + opcode);
+        final double distanceTrue;
+        final double distanceFalse;
+    
+        switch (opcode) {
+            case 153: // ifeq (i == 0)
+                distanceTrue = Math.abs(i); 
+                distanceFalse = i != 0 ? 0.0 : 1.0;
+                break;
+    
+            case 154: // ifne (i != 0)
+                distanceTrue = i != 0 ? 0.0 : 1.0; 
+                distanceFalse = Math.abs(i); 
+                break;
+    
+            case 155: // iflt (i < 0)
+                distanceTrue = i < 0 ? 0.0 : i + 1; // Fixed: Added +1 to correctly calculate the true distance
+                distanceFalse = i >= 0 ? 0.0 : Math.abs(i); 
+                break;
+    
+            case 156: // ifge (i >= 0)
+                distanceTrue = i >= 0 ? 0.0 : Math.abs(i); 
+                distanceFalse = i < 0 ? 0.0 : i + 1; // Adjusted for consistency
+                break;
+    
+            case 157: // ifgt (i > 0)
+                distanceTrue = i > 0 ? 0.0 : -i + 1; 
+                distanceFalse = i <= 0 ? 0.0 : i; 
+                break;
+    
+            case 158: // ifle (i <= 0)
+                distanceTrue = i <= 0 ? 0.0 : i + 1; // Fixed: Adjusted the calculation for i > 0
+                distanceFalse = i > 0 ? 0.0 : Math.abs(i); 
+                break;
+    
+            default:
+                throw new IllegalArgumentException("Unknown opcode: " + opcode);
+        }
+    
+        // Trace the branch distances
+        traceBranchDistance(trueBranch, distanceTrue, falseBranch, distanceFalse);
     }
-
-    // Trace the branch distances
-    traceBranchDistance(trueBranch, distanceTrue, falseBranch, distanceFalse);
-}
+    
 
 
     /**
