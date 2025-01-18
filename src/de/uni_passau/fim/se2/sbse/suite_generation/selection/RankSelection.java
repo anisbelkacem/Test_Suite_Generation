@@ -92,9 +92,6 @@ public class RankSelection<C extends Chromosome<C>> implements Selection<C> {
         if (size <= 0) {
             throw new IllegalArgumentException("Population size must be greater than zero");
         }
-        if (bias <= 1 || bias > 2) {
-            throw new IllegalArgumentException("Bias must be in the range (1, 2]");
-        }
         if (random == null) {
             throw new IllegalArgumentException("Random source must not be null");
         }
