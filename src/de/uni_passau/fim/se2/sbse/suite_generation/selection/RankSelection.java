@@ -3,6 +3,7 @@ package de.uni_passau.fim.se2.sbse.suite_generation.selection;
 
 import de.uni_passau.fim.se2.sbse.suite_generation.chromosomes.Chromosome;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -68,6 +69,10 @@ import java.util.Random;
  * @param <C> the type of chromosomes supported by this operator
  */
 public class RankSelection<C extends Chromosome<C>> implements Selection<C> {
+    private final Comparator<C> comparator;
+    private final int size;
+    private final double bias;
+    private final Random random;
 
     /**
      * Constructs a new rank selection operator that uses the given comparator to rank the
@@ -81,9 +86,24 @@ public class RankSelection<C extends Chromosome<C>> implements Selection<C> {
      * @param random     the source of randomness
      */
     public RankSelection(final Comparator<C> comparator, final int size, final double bias, final Random random) {
-        throw new UnsupportedOperationException("Implement me!");
+        if (comparator == null) {
+            throw new IllegalArgumentException("Comparator must not be null");
+        }
+        if (size <= 0) {
+            throw new IllegalArgumentException("Population size must be greater than zero");
+        }
+        if (bias <= 1 || bias > 2) {
+            throw new IllegalArgumentException("Bias must be in the range (1, 2]");
+        }
+        if (random == null) {
+            throw new IllegalArgumentException("Random source must not be null");
+        }
+        this.comparator = comparator;
+        this.size = size;
+        this.bias = bias;
+        this.random = random;
     }
-
+    
     /**
      * Chooses an individual from the given population using rank selection.
      *
@@ -92,6 +112,33 @@ public class RankSelection<C extends Chromosome<C>> implements Selection<C> {
      */
     @Override
     public C apply(final List<C> population) {
-        throw new UnsupportedOperationException("Implement me!");
+        if (population == null || population.isEmpty()) {
+            throw new IllegalArgumentException("Population must not be null or empty");
+        }
+        if (population.size() != size) {
+            throw new IllegalArgumentException("Population size does not match expected size");
+        }
+
+        List<C> sortedPopulation = new ArrayList<>(population);
+        sortedPopulation.sort(comparator);
+
+        double[] cumulativeProbabilities = new double[size];
+        for (int i = 0; i < size; i++) {
+            int rank = i + 1;
+            double probability = (2 - bias + 2 * (bias - 1) * (rank - 1) / (size - 1)) / size;
+            cumulativeProbabilities[i] = probability;
+            if (i > 0) {
+                cumulativeProbabilities[i] += cumulativeProbabilities[i - 1];
+            }
+        }
+        double r = random.nextDouble(); 
+        for (int i = 0; i < size; i++) {
+            if (r < cumulativeProbabilities[i]) {
+                return sortedPopulation.get(i);
+            }
+        }
+        return sortedPopulation.get(size - 1);
     }
+
+
 }

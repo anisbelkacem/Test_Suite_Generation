@@ -1,6 +1,8 @@
 package de.uni_passau.fim.se2.sbse.suite_generation.instrumentation;
 
 import de.uni_passau.fim.se2.sbse.suite_generation.instrumentation.Branch.Decision;
+import de.uni_passau.fim.se2.sbse.suite_generation.instrumentation.Branch.Entry;
+
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
@@ -339,14 +341,48 @@ public final class BranchTracer implements IBranchTracer {
     // NOTE: The name and signature of this method must not be changed because they're hard-coded
     // in instrumentMethodEntry() and instrumentBranchNode().
     public void passedBranch(final int i, final int opcode, final int trueBranch, final int falseBranch) {
-        final double distanceTrue;
-        final double distanceFalse;
+    final double distanceTrue;
+    final double distanceFalse;
 
-        throw new UnsupportedOperationException("Implement me!");
+    switch (opcode) {
+        case 153: // ifeq (i == 0)
+            distanceTrue = Math.abs(i); 
+            distanceFalse = i != 0 ? 0.0 : 1.0;
+            break;
 
-        // Uncomment once you have implemented the method.
-        //traceBranchDistance(trueBranch, distanceTrue, falseBranch, distanceFalse);
+        case 154: // ifne (i != 0)
+            distanceTrue = i != 0 ? 0.0 : 1.0; 
+            distanceFalse = Math.abs(i); 
+            break;
+
+        case 155: // iflt (i < 0)
+            distanceTrue = i < 0 ? 0.0 : i;
+            distanceFalse = i >= 0 ? 0.0 : Math.abs(i); 
+            break;
+
+        case 156: // ifge (i >= 0)
+            distanceTrue = i >= 0 ? 0.0 : Math.abs(i); 
+            distanceFalse = i < 0 ? 0.0 : i; 
+            break;
+
+        case 157: // ifgt (i > 0)
+            distanceTrue = i > 0 ? 0.0 : -i + 1; 
+            distanceFalse = i <= 0 ? 0.0 : i; 
+            break;
+
+        case 158: // ifle (i <= 0)
+            distanceTrue = i <= 0 ? 0.0 : i - 1; 
+            distanceFalse = i > 0 ? 0.0 : Math.abs(i); 
+            break;
+
+        default:
+            throw new IllegalArgumentException("Unknown opcode: " + opcode);
     }
+
+    // Trace the branch distances
+    traceBranchDistance(trueBranch, distanceTrue, falseBranch, distanceFalse);
+}
+
 
     /**
      * Computes the branching distance for a conditional comparison of two integers. Called by the
@@ -367,16 +403,47 @@ public final class BranchTracer implements IBranchTracer {
     @SuppressWarnings("unused") // Will be called by the instrumented code.
     // NOTE: The name and signature of this method must not be changed because they're hard-coded
     // in instrumentMethodEntry() and instrumentBranchNode().
-    public void passedBranch(final int i, final int j, final int opcode, final int trueBranch,
-                             final int falseBranch) {
+    public void passedBranch(final int i, final int j, final int opcode, final int trueBranch, final int falseBranch) {
         final double distanceTrue;
         final double distanceFalse;
-
-        throw new UnsupportedOperationException("Implement me!");
-
-        // Uncomment once you have implemented the method.
-        //traceBranchDistance(trueBranch, distanceTrue, falseBranch, distanceFalse);
+    
+        switch (opcode) {
+            case 159: // if_icmpeq (i == j)
+                distanceTrue = Math.abs(i - j);
+                distanceFalse = i != j ? 0.0 : 1.0; 
+                break;
+    
+            case 160: // if_icmpne (i != j)
+                distanceTrue = i != j ? 0.0 : 1.0;
+                distanceFalse = Math.abs(i - j);
+                break;
+    
+            case 161: // if_icmplt (i < j)
+                distanceTrue = i < j ? 0.0 : i - j + 1; 
+                distanceFalse = i >= j ? 0.0 : j - i; 
+                break;
+    
+            case 162: // if_icmpge (i >= j)
+                distanceTrue = i >= j ? 0.0 : j - i;
+                distanceFalse = i < j ? 0.0 : i - j + 1; 
+                break;
+    
+            case 163: // if_icmpgt (i > j)
+                distanceTrue = i > j ? 0.0 : j - i + 1; 
+                distanceFalse = i <= j ? 0.0 : i - j; 
+                break;
+    
+            case 164: // if_icmple (i <= j)
+                distanceTrue = i <= j ? 0.0 : i - j; 
+                distanceFalse = i > j ? 0.0 : j - i + 1; 
+                break;
+    
+            default:
+                throw new IllegalArgumentException("Unknown opcode: " + opcode);
+        }
+        traceBranchDistance(trueBranch, distanceTrue, falseBranch, distanceFalse);
     }
+    
 
     /**
      * Computes the branching distance for a conditional reference comparison with {@code null}.
@@ -396,16 +463,27 @@ public final class BranchTracer implements IBranchTracer {
     @SuppressWarnings("unused") // Will be called by the instrumented code.
     // NOTE: The name and signature of this method must not be changed because they're hard-coded
     // in instrumentMethodEntry() and instrumentBranchNode().
-    public void passedBranch(final Object o, final int opcode, final int trueBranch,
-                             final int falseBranch) {
+    public void passedBranch(final Object o, final int opcode, final int trueBranch, final int falseBranch) {
         final double distanceTrue;
         final double distanceFalse;
-
-        throw new UnsupportedOperationException("Implement me!");
-
-        // Uncomment once you have implemented the method.
-        // traceBranchDistance(trueBranch, distanceTrue, falseBranch, distanceFalse);
+    
+        switch (opcode) {
+            case 198: // ifnull (o == null)
+                distanceTrue = (o == null) ? 0.0 : 1.0; 
+                distanceFalse = (o != null) ? 0.0 : 1.0; 
+                break;
+    
+            case 199: // ifnonnull (o != null)
+                distanceTrue = (o != null) ? 0.0 : 1.0; 
+                distanceFalse = (o == null) ? 0.0 : 1.0;
+                break;
+    
+            default:
+                throw new IllegalArgumentException("Unknown opcode: " + opcode);
+        }
+        traceBranchDistance(trueBranch, distanceTrue, falseBranch, distanceFalse);
     }
+    
 
     /**
      * Computes the branching distance for a conditional comparison of two references. Called by the
@@ -427,15 +505,27 @@ public final class BranchTracer implements IBranchTracer {
     // NOTE: The name and signature of this method must not be changed because they're hard-coded
     // in instrumentMethodEntry() and instrumentBranchNode().
     public void passedBranch(final Object o, final Object p, final int opcode,
-                             final int trueBranch, final int falseBranch) {
-        final double distanceTrue;
-        final double distanceFalse;
+                         final int trueBranch, final int falseBranch) {
+    final double distanceTrue;
+    final double distanceFalse;
 
-        throw new UnsupportedOperationException("Implement me!");
+    switch (opcode) {
+        case 165: // if_acmp_eq (o == p)
+            distanceTrue = (o == p) ? 0.0 : 1.0; 
+            distanceFalse = (o != p) ? 0.0 : 1.0; 
+            break;
 
-        // Uncomment once you have implemented the method.
-        //traceBranchDistance(trueBranch, distanceTrue, falseBranch, distanceFalse);
+        case 166: // if_acmp_ne (o != p)
+            distanceTrue = (o != p) ? 0.0 : 1.0; 
+            distanceFalse = (o == p) ? 0.0 : 1.0; 
+            break;
+
+        default:
+            throw new IllegalArgumentException("Unknown opcode: " + opcode);
     }
+    traceBranchDistance(trueBranch, distanceTrue, falseBranch, distanceFalse);
+}
+
 
     /**
      * Computes the branching distance for method invocations.
@@ -462,8 +552,16 @@ public final class BranchTracer implements IBranchTracer {
      * @param falseBranch   the unique number identifying the {@code false} branch
      * @param distanceFalse the distance to taking the {@code false} branch
      */
-    private void traceBranchDistance(final int trueBranch, final double distanceTrue, final int falseBranch, final double distanceFalse) {
-        throw new UnsupportedOperationException("Implement me!");
+    private void traceBranchDistance(final int trueBranch, final double distanceTrue, 
+                                 final int falseBranch, final double distanceFalse) {
+        if (distanceTrue < 0 || distanceFalse < 0) {
+            throw new IllegalArgumentException("Distances must be non-negative");
+        }
+        if (Double.isNaN(distanceTrue) || Double.isNaN(distanceFalse)) {
+            throw new IllegalArgumentException("Distances must not be NaN");
+        }
+        distances.merge(trueBranch, distanceTrue, Math::min);
+        distances.merge(falseBranch, distanceFalse, Math::min);
     }
 
     /**
