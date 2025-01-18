@@ -346,43 +346,42 @@ public final class BranchTracer implements IBranchTracer {
     
         switch (opcode) {
             case 153: // ifeq (i == 0)
-                distanceTrue = Math.abs(i); 
-                distanceFalse = i != 0 ? 0.0 : 1.0;
+                distanceTrue = (i == 0) ? 0.0 : Math.abs(i); 
+                distanceFalse = (i != 0) ? 0.0 : 1.0;
                 break;
     
             case 154: // ifne (i != 0)
-                distanceTrue = i != 0 ? 0.0 : 1.0; 
-                distanceFalse = Math.abs(i); 
+                distanceTrue = (i != 0) ? 0.0 : 1.0; 
+                distanceFalse = (i == 0) ? 0.0 : Math.abs(i); 
                 break;
     
             case 155: // iflt (i < 0)
-                distanceTrue = i < 0 ? 0.0 : i + 1; 
-                distanceFalse = i >= 0 ? 0.0 : Math.abs(i); 
+                distanceTrue = (i < 0) ? 0.0 : Math.abs(i);  
+                distanceFalse = (i >= 0) ? 0.0 : Math.abs(i); 
                 break;
     
             case 156: // ifge (i >= 0)
-                distanceTrue = i >= 0 ? 0.0 : Math.abs(i); 
-                distanceFalse = i < 0 ? 0.0 : i + 1; 
+                distanceTrue = (i >= 0) ? 0.0 : -i;  
+                distanceFalse = (i < 0) ? 0.0 : i + 1;  
                 break;
     
             case 157: // ifgt (i > 0)
-                distanceTrue = i > 0 ? 0.0 : -i + 1; 
-                distanceFalse = i <= 0 ? 0.0 : i; 
+                distanceTrue = (i > 0) ? 0.0 : -i + 1; 
+                distanceFalse = (i <= 0) ? 0.0 : i; 
                 break;
     
-                case 158: // ifle (i <= 0)
-                distanceTrue = i <= 0 ? 0.0 : i + 1; 
-                distanceFalse = i > 0 ? 0.0 : Math.abs(i) + 1; 
+            case 158: // ifle (i <= 0)
+                distanceTrue = (i <= 0) ? 0.0 : i; 
+                distanceFalse = (i > 0) ? 0.0 : -i + 1; 
                 break;
-            
     
             default:
                 throw new IllegalArgumentException("Unknown opcode: " + opcode);
         }
-    
-        // Trace the branch distances
         traceBranchDistance(trueBranch, distanceTrue, falseBranch, distanceFalse);
     }
+    
+    
     
 
 
