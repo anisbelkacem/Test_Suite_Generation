@@ -356,8 +356,8 @@ public final class BranchTracer implements IBranchTracer {
                 break;
     
             case 155: // iflt (i < 0)
-                distanceTrue = (i < 0) ? 0.0 : Math.abs(i);  
-                distanceFalse = (i >= 0) ? 0.0 : Math.abs(i); 
+                distanceTrue = (i < 0) ? 0.0 : Math.abs(i)+1;  
+                distanceFalse = (i >= 0) ? 0.0 : -i; 
                 break;
     
             case 156: // ifge (i >= 0)
