@@ -356,13 +356,13 @@ public final class BranchTracer implements IBranchTracer {
                 break;
     
             case 155: // iflt (i < 0)
-                distanceTrue = i < 0 ? 0.0 : i + 1; // Fixed: Added +1 to correctly calculate the true distance
+                distanceTrue = i < 0 ? 0.0 : i + 1; 
                 distanceFalse = i >= 0 ? 0.0 : Math.abs(i); 
                 break;
     
             case 156: // ifge (i >= 0)
                 distanceTrue = i >= 0 ? 0.0 : Math.abs(i); 
-                distanceFalse = i < 0 ? 0.0 : i + 1; // Adjusted for consistency
+                distanceFalse = i < 0 ? 0.0 : i + 1; 
                 break;
     
             case 157: // ifgt (i > 0)
@@ -370,10 +370,11 @@ public final class BranchTracer implements IBranchTracer {
                 distanceFalse = i <= 0 ? 0.0 : i; 
                 break;
     
-            case 158: // ifle (i <= 0)
-                distanceTrue = i <= 0 ? 0.0 : i + 1; // Fixed: Adjusted the calculation for i > 0
-                distanceFalse = i > 0 ? 0.0 : Math.abs(i); 
+                case 158: // ifle (i <= 0)
+                distanceTrue = i <= 0 ? 0.0 : i + 1; 
+                distanceFalse = i > 0 ? 0.0 : Math.abs(i) + 1; 
                 break;
+            
     
             default:
                 throw new IllegalArgumentException("Unknown opcode: " + opcode);
