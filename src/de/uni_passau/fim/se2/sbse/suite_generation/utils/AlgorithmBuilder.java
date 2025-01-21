@@ -1,7 +1,10 @@
 package de.uni_passau.fim.se2.sbse.suite_generation.utils;
 
 import de.uni_passau.fim.se2.sbse.suite_generation.algorithms.GeneticAlgorithm;
+import de.uni_passau.fim.se2.sbse.suite_generation.algorithms.RandomSearch;
 import de.uni_passau.fim.se2.sbse.suite_generation.algorithms.SearchAlgorithmType;
+import de.uni_passau.fim.se2.sbse.suite_generation.chromosomes.MyChromosomeGenerator;
+import de.uni_passau.fim.se2.sbse.suite_generation.fitness_functions.BranchCovFF;
 import de.uni_passau.fim.se2.sbse.suite_generation.instrumentation.IBranch;
 import de.uni_passau.fim.se2.sbse.suite_generation.instrumentation.IBranchTracer;
 import de.uni_passau.fim.se2.sbse.suite_generation.stopping_conditions.StoppingCondition;
@@ -97,7 +100,7 @@ public class AlgorithmBuilder {
      * @return the search algorithm
      */
     private GeneticAlgorithm<?> buildMOSA() {
-        throw new UnsupportedOperationException("Implement me!");
+    return  (GeneticAlgorithm<?>) new RandomSearch(random, stoppingCondition, populationSize, testGenerationTarget, branchTracer, branchesToCover);
     }
 
     /**

@@ -1,7 +1,7 @@
 package de.uni_passau.fim.se2.sbse.suite_generation.instrumentation;
 
 import de.uni_passau.fim.se2.sbse.suite_generation.instrumentation.Branch.Decision;
-import de.uni_passau.fim.se2.sbse.suite_generation.instrumentation.Branch.Entry;
+import de.uni_passau.fim.se2.sbse.suite_generation.instrumentation.Branch;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
