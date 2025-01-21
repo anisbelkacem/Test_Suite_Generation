@@ -100,7 +100,7 @@ public class AlgorithmBuilder {
      * @return the search algorithm
      */
     private GeneticAlgorithm<?> buildMOSA() {
-    return  (GeneticAlgorithm<?>) new RandomSearch(random, stoppingCondition, populationSize, testGenerationTarget, branchTracer, branchesToCover);
+        throw new UnsupportedOperationException("Implement me!");
     }
 
     /**
@@ -114,6 +114,7 @@ public class AlgorithmBuilder {
      * @return the search algorithm
      */
     private GeneticAlgorithm<?> buildRandomSearch() {
-        throw new UnsupportedOperationException("Implement me!");
+        return  (GeneticAlgorithm<?>) new RandomSearch(random, stoppingCondition, populationSize, testGenerationTarget, branchTracer, branchesToCover);
+        
     }
 }
