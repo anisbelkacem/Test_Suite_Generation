@@ -114,7 +114,7 @@ public class AlgorithmBuilder {
      * @return the search algorithm
      */
     private GeneticAlgorithm<?> buildRandomSearch() {
-        return  (GeneticAlgorithm<?>) new RandomSearch(random, stoppingCondition, populationSize, testGenerationTarget, branchTracer, branchesToCover);
-        
+        //return new RandomSearch(random, stoppingCondition, populationSize, testGenerationTarget, branchTracer, branchesToCover);
+        throw new RuntimeException("build Random Search ");
     }
 }
