@@ -101,6 +101,8 @@ public class AlgorithmBuilder {
      */
     private GeneticAlgorithm<?> buildMOSA() {
         throw new UnsupportedOperationException("Implement me!");
+        //return new RandomSearch(random, stoppingCondition, populationSize, testGenerationTarget, branchTracer, branchesToCover);
+
     }
 
     /**
@@ -114,7 +116,7 @@ public class AlgorithmBuilder {
      * @return the search algorithm
      */
     private GeneticAlgorithm<?> buildRandomSearch() {
-        //return new RandomSearch(random, stoppingCondition, populationSize, testGenerationTarget, branchTracer, branchesToCover);
-        throw new RuntimeException("build Random Search ");
+        return new RandomSearch(random, stoppingCondition, populationSize, testGenerationTarget, branchTracer, branchesToCover);
+        //throw new RuntimeException("build Random Search ");
     }
 }

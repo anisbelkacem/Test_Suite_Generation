@@ -1,6 +1,8 @@
 package de.uni_passau.fim.se2.sbse.suite_generation.chromosomes.statements;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * Represents a method call statement in the test case.
@@ -29,10 +31,14 @@ public class MethodStat implements Statement {
     @Override
     public void run() {
         try {
-            method.setAccessible(true); 
+            method.setAccessible(true);  
             method.invoke(targetObject, parameters);
-        } catch (Exception e) {
-            throw new RuntimeException("exception of running method :", e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Illegal access to method: " + method.getName() + " on " + targetObject.getClass().getName(), e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException("Exception thrown by method: " + method.getName() + " on " + targetObject.getClass().getName(), e.getTargetException());
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Invalid arguments for method: " + method.getName() + " on " + targetObject.getClass().getName() + " with parameters: " + Arrays.toString(parameters), e);
         }
     }
 
@@ -47,10 +53,10 @@ public class MethodStat implements Statement {
         sb.append(targetObject.getClass().getSimpleName()).append(".")
           .append(method.getName()).append("(");
         for (int i = 0; i < parameters.length; i++) {
-            sb.append(parameters[i].getClass().getSimpleName());
+            sb.append(parameters[i]);
             if (i < parameters.length - 1) sb.append(", ");
         }
-        sb.append(");");
+        sb.append(");\n");
         return sb.toString();
     }
     

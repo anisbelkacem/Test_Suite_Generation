@@ -55,11 +55,11 @@ public class MyChromosome extends Chromosome<MyChromosome> {
     public Map<Integer, Double> call() {
         try {
             for (Statement statement : getStatements()) {
+                System.out.println("Running statement: " + statement.toString());
                 statement.run(); 
             }
         } catch (Exception e) {
-            
-            throw new RuntimeException("Error while executing the chromosome: " + e.getMessage(), e);
+            throw new RuntimeException("Error while executing the chromosome: " + e);
         }
 
         return BranchTracer.getInstance().getDistances();

@@ -27,12 +27,19 @@ public class AssignmentStat implements Statement {
     public void run() {
         try {
             Field field = targetObject.getClass().getDeclaredField(variableName);
-            field.setAccessible(true);  
+            field.setAccessible(true);
+            if (!field.getType().isAssignableFrom(value.getClass())) {
+                throw new IllegalArgumentException("Incompatible types: field type " + field.getType() + " cannot accept value type " + value.getClass());
+            }
+
             field.set(targetObject, value);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException("exception during execution of assignment statement :", e);
+            throw new RuntimeException("Exception during execution of assignment statement: " + e.getMessage(), e);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Type mismatch during assignment: " + e.getMessage(), e);
         }
     }
+
 
     /**
      * Returns a string representation of the assignment statement.
@@ -41,6 +48,6 @@ public class AssignmentStat implements Statement {
      */
     @Override
     public String toString() {
-        return variableName + " = " + value + ";";
+        return variableName + " = " + value + ";\n";
     }
 }

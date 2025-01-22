@@ -1,6 +1,7 @@
 package de.uni_passau.fim.se2.sbse.suite_generation.chromosomes.statements;
 
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
 
 /**
  * Represents a constructor statement in the test case.
@@ -26,12 +27,16 @@ public class ConstructorStat implements Statement {
     @Override
     public void run() {
         try {
-            Constructor<?> constructor = clazz.getConstructor(getParameterTypes(parameters));
+            Constructor<?> constructor = clazz.getConstructor(getParameterTypes());
+            constructor.setAccessible(true);  // In case the constructor is not public
             constructor.newInstance(parameters);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException("No such constructor for class: " + clazz.getName() + " with parameters: " + Arrays.toString(parameters), e);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error executing constructor for class: " + clazz.getName() + " with parameters: " + Arrays.toString(parameters), e);
         }
     }
+
 
     /**
      * Returns a string representation of the constructor statement.
@@ -43,22 +48,39 @@ public class ConstructorStat implements Statement {
         StringBuilder sb = new StringBuilder();
         sb.append(clazz.getSimpleName()).append("(");
         for (int i = 0; i < parameters.length; i++) {
-            sb.append(parameters[i].getClass().getSimpleName());
+            sb.append(parameters[i] != null ? parameters[i] : "null");
             if (i < parameters.length - 1) sb.append(", ");
         }
-        sb.append(");");
+        sb.append(");\n");
         return sb.toString();
     }
 
-    private Class<?>[] getParameterTypes(Object[] parameters) {
-        Class<?>[] types = new Class<?>[parameters.length];
-        for (int i = 0; i < parameters.length; i++) {
-            types[i] = parameters[i].getClass();
-        }
-        return types;
+    /**
+     * Retrieves the parameter types of the constructor.
+     *
+     * @return an array of parameter types
+     */
+    public Class<?>[] getParameterTypes() {
+        return Arrays.stream(parameters)
+                     .map(param -> param != null ? param.getClass() : Object.class)
+                     .toArray(Class<?>[]::new);
     }
 
-    public Object[] getparameters() {
-        return parameters;
+    /**
+     * Retrieves the parameters for the constructor.
+     *
+     * @return an array of parameters
+     */
+    public Object[] getParameters() {
+        return this.parameters;
+    }
+
+    /**
+     * Retrieves the class of the constructor.
+     *
+     * @return the class being instantiated
+     */
+    public Class<?> getClazz() {
+        return clazz;
     }
 }
