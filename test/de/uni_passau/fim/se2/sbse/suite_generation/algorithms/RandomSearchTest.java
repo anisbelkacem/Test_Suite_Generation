@@ -63,6 +63,10 @@ class RandomSearchTest {
         List<MyChromosome> bestTests4 = randomSearch4.findSolution();
 
         assertNotNull(bestTests1);
+        assertNotNull(bestTests2);
+        assertNotNull(bestTests3);
+        assertNotNull(bestTests4);
         assertFalse(bestTests1.isEmpty());
+        
     }
 }
