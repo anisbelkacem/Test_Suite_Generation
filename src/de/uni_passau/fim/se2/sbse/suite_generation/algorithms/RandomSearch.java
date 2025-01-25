@@ -61,16 +61,17 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
                         ? Double.MAX_VALUE 
                         : bestFitnessFunction.applyAsDouble(bestCandidate);
                     stoppingCondition.notifyFitnessEvaluation();
-                    if (bestCandidate == null || distance < bestDistance) {
+
+                    if (distance < bestDistance) {
                         bestSolutions.put(branch, candidate);
                         
                     }
                 }
             }
             uncoveredBranches.removeAll(branchesToRemove);
-            if(bestSolutions.size() % populationSize == 0){
+            /*if(bestSolutions.size() % populationSize == 0){
                 stoppingCondition.notifyIteration();
-            }
+            }*/
             
         }
         return new ArrayList<>(bestSolutions.values());
