@@ -54,9 +54,6 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
                 }
             }
         }
-        for (Statement st: statements) {
-            System.out.println(st.toString()+ "\n");
-        }
         
         return new MyChromosome(statements);
     }
@@ -79,27 +76,29 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         Method method = methods[random.nextInt(methods.length)];
         Object[] parameters = generateRandomParameters(method.getParameterTypes());
         method.setAccessible(true);
-        if (Modifier.isPublic(method.getModifiers())) {
+        return new MethodStat(targetObject, method, parameters);
+        /*if (Modifier.isPublic(method.getModifiers())) {
             //System.out.println("Field is public");
             return new MethodStat(targetObject, method, parameters);
         }
     
-        return null;
+        return null;*/
         
     }
 
     public AssignmentStat generateAssignmentStatement(Object targetObject) {
         Field[] fields = CUT.getDeclaredFields();
         if (fields.length == 0) return null;
-
         Field field = fields[random.nextInt(fields.length)];
+
         Object value = generateRandomValue(field.getType());
         field.setAccessible(true);
-        if (Modifier.isPublic(field.getModifiers())) {
+        return new AssignmentStat(targetObject,field, value);
+        /*if (Modifier.isPublic(field.getModifiers())) {
             //System.out.println("Field is public");
             return new AssignmentStat(targetObject,field, value);
         }
-        return null;
+        return null;*/
         
     }
 
