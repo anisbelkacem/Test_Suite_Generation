@@ -75,14 +75,14 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
 
         Method method = methods[random.nextInt(methods.length)];
         Object[] parameters = generateRandomParameters(method.getParameterTypes());
-        //method.setAccessible(true);
-        //return new MethodStat(targetObject, method, parameters);
-        if (Modifier.isPublic(method.getModifiers())) {
+        method.setAccessible(true);
+        return new MethodStat(targetObject, method, parameters);
+        /*if (Modifier.isPublic(method.getModifiers())) {
             //System.out.println("Field is public");
             return new MethodStat(targetObject, method, parameters);
         }
     
-        return null;
+        return null;*/
         
     }
 
@@ -106,15 +106,26 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         try {
             Constructor<?>[] constructs = CUT.getConstructors();
             if (constructs.length > 0) {
-                Constructor<?> construct = constructs[0];
+                Constructor<?> construct=null;
+                for(Constructor<?> constr : constructs) {
+                    {
+                        if (Modifier.isPublic(constr.getModifiers()))
+                        {
+                            construct = constr;
+                            break;
+                        }
+                    }
+                }
                 Object[] parameters = generateRandomParameters(construct.getParameterTypes());
                 statements.add(new ConstructorStat(construct , parameters));
                 return construct.newInstance(parameters);
             }
+            else {
+                return null;    
+            }
         } catch (Exception e) {
             return null;
         }
-        return null;
     }
     
     
