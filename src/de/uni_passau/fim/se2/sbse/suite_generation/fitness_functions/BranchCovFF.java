@@ -24,7 +24,7 @@ public class BranchCovFF<C> implements FitnessFunction<C> {
             throw new NullPointerException("Branch distances cannot be null.");
         }
         double Dist = branchDist.getOrDefault(branchId, Double.MAX_VALUE);
-        return Dist / (1.0 + Dist); 
+        return 1.0 / (1.0 + Dist); 
     }
 
 
