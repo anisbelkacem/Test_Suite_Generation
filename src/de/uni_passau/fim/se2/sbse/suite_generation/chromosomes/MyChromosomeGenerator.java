@@ -58,14 +58,14 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     }
 
     public Statement generateRandomStatement(Object instance) {
-        return generateMethodStatement(instance); 
-        /*double probability = random.nextDouble(); 
+        //return generateMethodStatement(instance); 
+        double probability = random.nextDouble(); 
         double bias=random.nextDouble();
         if (probability < bias) { 
             return generateMethodStatement(instance); 
         } else {
             return generateAssignmentStatement(instance);
-        }*/
+        }
     }
 
     public MethodStat generateMethodStatement(Object targetObject) {
