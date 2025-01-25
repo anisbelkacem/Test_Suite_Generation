@@ -32,7 +32,5 @@ public class MyMutation<C extends Chromosome<C>> implements Mutation<C> {
     public String toString() {
         return "Random mutation";
     }
-    private Statement generateRandomStatement() {
-        return null;
-    }
+    
 }

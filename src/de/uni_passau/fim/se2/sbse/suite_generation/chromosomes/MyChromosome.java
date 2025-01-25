@@ -59,7 +59,7 @@ public class MyChromosome extends Chromosome<MyChromosome> {
                 
             }
         } catch (Exception e) {
-            System.out.println("Error while executing the chromosome: " + e+ "\n");
+            //System.out.println("Error while executing the chromosome: " + e+ "\n");
             throw new RuntimeException("Error while executing the chromosome: " + e);
         }
 

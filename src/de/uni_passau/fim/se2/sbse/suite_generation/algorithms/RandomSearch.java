@@ -46,7 +46,7 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
         while (!stoppingCondition.searchMustStop() && !uncoveredBranches.isEmpty()) {
             C candidate = chromosomeGenerator.get();
             Set<IBranch> branchesToRemove = new HashSet<>();
-            stoppingCondition.notifyFitnessEvaluation();
+            
             for (IBranch branch : uncoveredBranches) {
                 BranchCovFF<C> fitnessFunction = new BranchCovFF<>(branch.getId());
                 double distance = fitnessFunction.applyAsDouble(candidate);
@@ -67,6 +67,7 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
                     }
                 }
             }
+            stoppingCondition.notifyFitnessEvaluation();
             uncoveredBranches.removeAll(branchesToRemove);
             
         }
