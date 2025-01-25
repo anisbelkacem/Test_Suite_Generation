@@ -46,10 +46,11 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
         while (!stoppingCondition.searchMustStop() && !uncoveredBranches.isEmpty()) {
             C candidate = chromosomeGenerator.get();
             Set<IBranch> branchesToRemove = new HashSet<>();
+            stoppingCondition.notifyFitnessEvaluation();
             for (IBranch branch : branchesToCover) {
                 BranchCovFF<C> fitnessFunction = new BranchCovFF<>(branch.getId());
                 double distance = fitnessFunction.applyAsDouble(candidate);
-                stoppingCondition.notifyFitnessEvaluation();
+                
 
                 if (distance == 0.0) { 
                     branchesToRemove.add(branch);
