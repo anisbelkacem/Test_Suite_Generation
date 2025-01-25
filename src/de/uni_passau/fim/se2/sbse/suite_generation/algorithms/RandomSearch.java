@@ -67,10 +67,10 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
                     }
                 }
             }
-            //uncoveredBranches.removeAll(branchesToRemove);
-            if(bestSolutions.size() % this.populationSize == 0){
+            uncoveredBranches.removeAll(branchesToRemove);
+            /*if(bestSolutions.size() % populationSize == 0){
                 stoppingCondition.notifyIteration();
-            }
+            }*/
             
         }
         return new ArrayList<>(bestSolutions.values());
