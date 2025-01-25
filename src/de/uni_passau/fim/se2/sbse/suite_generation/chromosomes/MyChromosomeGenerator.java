@@ -76,6 +76,9 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         Object[] parameters = generateRandomParameters(method.getParameterTypes());
         //method.setAccessible(true);
         //return new MethodStat(targetObject, method, parameters);
+        if (method.getDeclaringClass() != CUT || Modifier.isStatic(method.getModifiers())) {
+            return null; 
+        }
         if (Modifier.isPublic(method.getModifiers())) {
             //System.out.println("Field is public");
             return new MethodStat(targetObject, method, parameters);
@@ -137,19 +140,22 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     }
 
     public Object generateRandomValue(Class<?> type) {
-        if (type == int.class || type == Integer.class) return random.nextInt(-1024, 1023);
-        if (type == double.class || type == Double.class) return random.nextDouble();
+        if (type == int.class || type == Integer.class) return random.nextInt(-1024, 1024);
+        if (type == double.class || type == Double.class) return random.nextDouble() * 2048 - 1024; // Range: [-1024, 1023]
         if (type == boolean.class || type == Boolean.class) return random.nextBoolean();
         if (type == String.class) return generateRandomString(type);
-        if (type == long.class || type == Long.class) return random.nextLong();
-        if (type == float.class || type == Float.class) return random.nextFloat();
-        if (type == char.class || type == Character.class) return (char) random.nextInt(32, 127);
-        if (type == byte.class || type == Byte.class) return (byte) random.nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE);
-        if (type == short.class || type == Short.class) return (short) random.nextInt(Short.MIN_VALUE, Short.MAX_VALUE);
-        if (type == BigDecimal.class) return new BigDecimal(random.nextDouble()).setScale(2, RoundingMode.HALF_UP);
-        if (type == BigInteger.class) return new BigInteger(130, random);
+        if (type == long.class || type == Long.class) return random.nextLong(-1024, 1023);
+        if (type == float.class || type == Float.class) return random.nextFloat() * 2048 - 1024; // Range: [-1024, 1023]
+        if (type == char.class || type == Character.class) return (char) random.nextInt(32, 127); // Printable ASCII [32, 126]
+        if (type == byte.class || type == Byte.class) return (byte) random.nextInt(-128, 127);
+        if (type == short.class || type == Short.class) return (short) random.nextInt(-1024, 1023);
+        if (type == BigDecimal.class) return new BigDecimal(random.nextDouble() * 2048 - 1024).setScale(2, RoundingMode.HALF_UP);
+        if (type == BigInteger.class) return new BigInteger(10, random).subtract(new BigInteger("1024"));
+        
+        
         return null;
     }
+    
 
     public String generateRandomString(Class<?> type) {
         Random random = new Random();
