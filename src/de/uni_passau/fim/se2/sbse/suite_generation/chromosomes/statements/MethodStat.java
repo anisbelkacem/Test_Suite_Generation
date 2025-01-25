@@ -31,7 +31,6 @@ public class MethodStat implements Statement {
     @Override
     public void run() {
         try {
-            method.setAccessible(true);  
             method.invoke(targetObject, parameters);
         } catch (IllegalAccessException e) {
             throw new RuntimeException("Illegal access to method: " + method.getName() + " on " + targetObject.getClass().getName(), e);
@@ -41,7 +40,6 @@ public class MethodStat implements Statement {
             throw new RuntimeException("Invalid arguments for method: " + method.getName() + " on " + targetObject.getClass().getName() + " with parameters: " + Arrays.toString(parameters), e);
         }
     }
-
     /**
      * Returns a string representation of the method call statement.
      *

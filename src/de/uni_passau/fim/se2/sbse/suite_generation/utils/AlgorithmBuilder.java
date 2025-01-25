@@ -2,9 +2,8 @@ package de.uni_passau.fim.se2.sbse.suite_generation.utils;
 
 import de.uni_passau.fim.se2.sbse.suite_generation.algorithms.GeneticAlgorithm;
 import de.uni_passau.fim.se2.sbse.suite_generation.algorithms.RandomSearch;
+//import de.uni_passau.fim.se2.sbse.suite_generation.algorithms.RandomSearch;
 import de.uni_passau.fim.se2.sbse.suite_generation.algorithms.SearchAlgorithmType;
-import de.uni_passau.fim.se2.sbse.suite_generation.chromosomes.MyChromosomeGenerator;
-import de.uni_passau.fim.se2.sbse.suite_generation.fitness_functions.BranchCovFF;
 import de.uni_passau.fim.se2.sbse.suite_generation.instrumentation.IBranch;
 import de.uni_passau.fim.se2.sbse.suite_generation.instrumentation.IBranchTracer;
 import de.uni_passau.fim.se2.sbse.suite_generation.stopping_conditions.StoppingCondition;
@@ -100,21 +99,10 @@ public class AlgorithmBuilder {
      * @return the search algorithm
      */
     private GeneticAlgorithm<?> buildMOSA() {
-        throw new UnsupportedOperationException("Implement me!");
-        //return new RandomSearch(random, stoppingCondition, populationSize, testGenerationTarget, branchTracer, branchesToCover);
+        throw new UnsupportedOperationException("build failed MOSA");
 
     }
 
-    /**
-     * Returns an instance of the Random Search algorithm to generate tests for the target class.
-     * The algorithm is constructed using the fields of this class.
-     * <p>
-     * Instead of sampling a number of test suites at random and simply returning the best one, we
-     * consider all sampled test cases, and reuse the MOSA archive to find the shortest covering
-     * ones. These test cases are then returned as the overall result of Random Search.
-     *
-     * @return the search algorithm
-     */
     private GeneticAlgorithm<?> buildRandomSearch() {
         return new RandomSearch(random, stoppingCondition, populationSize, testGenerationTarget, branchTracer, branchesToCover);
         //throw new RuntimeException("build Random Search ");

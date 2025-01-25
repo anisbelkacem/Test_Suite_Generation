@@ -3,9 +3,10 @@ package de.uni_passau.fim.se2.sbse.suite_generation.chromosomes.statements;
 import java.lang.reflect.Field;
 
 public class AssignmentStat implements Statement {
-    private final String variableName;
     private final Object value;
-    private final Object targetObject;  // The object containing the field
+    private final Object targetObject;
+    private final Field field;
+      // The object containing the field
 
     /**
      * Creates a new assignment statement.
@@ -14,9 +15,9 @@ public class AssignmentStat implements Statement {
      * @param variableName the name of the field (variable) to assign a value to
      * @param value the value to assign to the field
      */
-    public AssignmentStat(Object targetObject, String variableName, Object value) {
+    public AssignmentStat(Object targetObject,Field field, Object value) {
         this.targetObject = targetObject;
-        this.variableName = variableName;
+        this.field = field;
         this.value = value;
     }
 
@@ -26,17 +27,10 @@ public class AssignmentStat implements Statement {
     @Override
     public void run() {
         try {
-            Field field = targetObject.getClass().getDeclaredField(variableName);
             field.setAccessible(true);
-            if (!field.getType().isAssignableFrom(value.getClass())) {
-                throw new IllegalArgumentException("Incompatible types: field type " + field.getType() + " cannot accept value type " + value.getClass());
-            }
-
             field.set(targetObject, value);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException("Exception during execution of assignment statement: " + e.getMessage(), e);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Type mismatch during assignment: " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while running Assignement "+ e);
         }
     }
 
@@ -48,6 +42,6 @@ public class AssignmentStat implements Statement {
      */
     @Override
     public String toString() {
-        return variableName + " = " + value + ";\n";
+        return field.getName() + " = " + value + ";\n";
     }
 }

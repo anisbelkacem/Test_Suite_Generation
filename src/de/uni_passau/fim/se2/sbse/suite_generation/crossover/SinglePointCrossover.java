@@ -14,41 +14,28 @@ public class SinglePointCrossover<C extends Chromosome<C>> implements Crossover<
 
     @Override
     public Pair<C> apply(C parent1, C parent2) {
-        // Ensure parents are not null
         if (parent1 == null || parent2 == null) {
             throw new NullPointerException("Parents cannot be null");
         }
-
-        // Get the statements of each parent
         List<Statement> parent1Statements = parent1.getStatements();
         List<Statement> parent2Statements = parent2.getStatements();
-
-        // Determine crossover point
         int crossoverPoint = random.nextInt(Math.min(parent1Statements.size(), parent2Statements.size()));
 
-        // Create offspring by exchanging segments
         List<Statement> offspring1Statements = new ArrayList<>();
         List<Statement> offspring2Statements = new ArrayList<>();
-
-        // Add segments from each parent
         offspring1Statements.addAll(parent1Statements.subList(0, crossoverPoint));
         offspring1Statements.addAll(parent2Statements.subList(crossoverPoint, parent2Statements.size()));
 
         offspring2Statements.addAll(parent2Statements.subList(0, crossoverPoint));
         offspring2Statements.addAll(parent1Statements.subList(crossoverPoint, parent1Statements.size()));
 
-        // Create new offspring chromosomes
         C offspring1 = parent1.copy();
         C offspring2 = parent2.copy();
-
-        // Set the statements for each offspring
         offspring1.getStatements().clear();
         offspring1.getStatements().addAll(offspring1Statements);
 
         offspring2.getStatements().clear();
         offspring2.getStatements().addAll(offspring2Statements);
-
-        // Return offspring as a pair
         return Pair.of(offspring1, offspring2);
     }
 

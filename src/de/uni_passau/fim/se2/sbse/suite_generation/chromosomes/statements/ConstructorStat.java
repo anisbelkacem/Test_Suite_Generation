@@ -3,6 +3,8 @@ package de.uni_passau.fim.se2.sbse.suite_generation.chromosomes.statements;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
+import de.uni_passau.fim.se2.sbse.suite_generation.utils.Randomness;
+
 /**
  * Represents a constructor statement in the test case.
  */
@@ -17,8 +19,11 @@ public class ConstructorStat implements Statement {
      * @param parameters the parameters to pass to the constructor
      */
     public ConstructorStat(Class<?> clazz, Object... parameters) {
+        if (clazz == null) {
+            throw new IllegalArgumentException("Class cannot be null");
+        }
         this.clazz = clazz;
-        this.parameters = parameters;
+        this.parameters = parameters != null ? parameters : new Object[0];
     }
 
     /**
@@ -27,16 +32,17 @@ public class ConstructorStat implements Statement {
     @Override
     public void run() {
         try {
-            Constructor<?> constructor = clazz.getConstructor(getParameterTypes());
-            constructor.setAccessible(true);  // In case the constructor is not public
-            constructor.newInstance(parameters);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("No such constructor for class: " + clazz.getName() + " with parameters: " + Arrays.toString(parameters), e);
+            Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+            if (constructors.length > 0) {
+                Constructor<?> constructor = constructors[Randomness.random().nextInt(constructors.length)];
+                constructor.newInstance(parameters);
+            } else {
+                throw new RuntimeException("No constructors found for class: " + clazz.getName());
+            }
         } catch (Exception e) {
             throw new RuntimeException("Error executing constructor for class: " + clazz.getName() + " with parameters: " + Arrays.toString(parameters), e);
         }
     }
-
 
     /**
      * Returns a string representation of the constructor statement.
@@ -48,22 +54,11 @@ public class ConstructorStat implements Statement {
         StringBuilder sb = new StringBuilder();
         sb.append(clazz.getSimpleName()).append("(");
         for (int i = 0; i < parameters.length; i++) {
-            sb.append(parameters[i] != null ? parameters[i] : "null");
+            sb.append(parameters[i] != null ? parameters[i].toString() : "null");
             if (i < parameters.length - 1) sb.append(", ");
         }
         sb.append(");\n");
         return sb.toString();
-    }
-
-    /**
-     * Retrieves the parameter types of the constructor.
-     *
-     * @return an array of parameter types
-     */
-    public Class<?>[] getParameterTypes() {
-        return Arrays.stream(parameters)
-                     .map(param -> param != null ? param.getClass() : Object.class)
-                     .toArray(Class<?>[]::new);
     }
 
     /**
