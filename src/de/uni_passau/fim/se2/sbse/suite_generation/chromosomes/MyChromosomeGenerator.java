@@ -75,14 +75,14 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
 
         Method method = methods[random.nextInt(methods.length)];
         Object[] parameters = generateRandomParameters(method.getParameterTypes());
-        method.setAccessible(true);
-        return new MethodStat(targetObject, method, parameters);
-        /*if (Modifier.isPublic(method.getModifiers())) {
+        //method.setAccessible(true);
+        //return new MethodStat(targetObject, method, parameters);
+        if (Modifier.isPublic(method.getModifiers())) {
             //System.out.println("Field is public");
             return new MethodStat(targetObject, method, parameters);
         }
     
-        return null;*/
+        return null;
         
     }
 
