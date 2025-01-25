@@ -14,8 +14,7 @@ public class MyChromosome extends Chromosome<MyChromosome> {
 
     private final List<Statement> statements;
 
-    public MyChromosome(Mutation<MyChromosome> mutation, Crossover<MyChromosome> crossover, List<Statement> statements) {
-        super(mutation, crossover);
+    public MyChromosome( List<Statement> statements) {
         this.statements = statements;
     }
 
@@ -43,7 +42,7 @@ public class MyChromosome extends Chromosome<MyChromosome> {
 
     @Override
     public MyChromosome copy() {
-        return new MyChromosome(getMutation(), getCrossover(), getStatements());
+        return new MyChromosome( getStatements());
     }
 
     @Override
@@ -55,18 +54,16 @@ public class MyChromosome extends Chromosome<MyChromosome> {
     public Map<Integer, Double> call() {
         try {
             for (Statement statement : statements) {
+                //System.out.println("Running statement: " + statement.toString()+ "\n");
                 statement.run(); 
-                //System.out.println("Running statement: " + statement.toString());
+                
             }
         } catch (Exception e) {
-            System.out.println("Error while executing the chromosome: " + e);
+            System.out.println("Error while executing the chromosome: " + e+ "\n");
             throw new RuntimeException("Error while executing the chromosome: " + e);
         }
 
         return BranchTracer.getInstance().getDistances();
     }
-    public double evaluateBranch(IBranch branch) {
-        BranchCovFF<MyChromosome> fitnessFunction = new BranchCovFF<>(branch.getId());
-        return fitnessFunction.applyAsDouble(this);
-    }
+    
 }

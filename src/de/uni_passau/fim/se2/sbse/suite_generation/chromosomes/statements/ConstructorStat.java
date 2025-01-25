@@ -9,7 +9,7 @@ import de.uni_passau.fim.se2.sbse.suite_generation.utils.Randomness;
  * Represents a constructor statement in the test case.
  */
 public class ConstructorStat implements Statement {
-    private final Class<?> clazz;
+    private final Constructor<?> clazz;
     private final Object[] parameters;
 
     /**
@@ -18,7 +18,7 @@ public class ConstructorStat implements Statement {
      * @param clazz the class to instantiate
      * @param parameters the parameters to pass to the constructor
      */
-    public ConstructorStat(Class<?> clazz, Object... parameters) {
+    public ConstructorStat(Constructor<?> clazz, Object... parameters) {
         if (clazz == null) {
             throw new IllegalArgumentException("Class cannot be null");
         }
@@ -32,13 +32,7 @@ public class ConstructorStat implements Statement {
     @Override
     public void run() {
         try {
-            Constructor<?>[] constructors = clazz.getDeclaredConstructors();
-            if (constructors.length > 0) {
-                Constructor<?> constructor = constructors[Randomness.random().nextInt(constructors.length)];
-                constructor.newInstance(parameters);
-            } else {
-                throw new RuntimeException("No constructors found for class: " + clazz.getName());
-            }
+            clazz.newInstance(parameters);
         } catch (Exception e) {
             throw new RuntimeException("Error executing constructor for class: " + clazz.getName() + " with parameters: " + Arrays.toString(parameters), e);
         }
@@ -52,7 +46,7 @@ public class ConstructorStat implements Statement {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(clazz.getSimpleName()).append("(");
+        sb.append(clazz.getName()).append("(");
         for (int i = 0; i < parameters.length; i++) {
             sb.append(parameters[i] != null ? parameters[i].toString() : "null");
             if (i < parameters.length - 1) sb.append(", ");
@@ -75,7 +69,7 @@ public class ConstructorStat implements Statement {
      *
      * @return the class being instantiated
      */
-    public Class<?> getClazz() {
+    public Constructor<?> getClazz() {
         return clazz;
     }
 }

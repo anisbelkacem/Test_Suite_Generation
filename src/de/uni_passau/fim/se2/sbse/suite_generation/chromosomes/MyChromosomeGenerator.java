@@ -43,9 +43,9 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     @Override
     public MyChromosome get() {
         //int numberOfStat = random.nextInt(50) + 1; 
-        int numberOfStat = 50; 
+        int numberOfStat =50; 
         List<Statement> statements = new ArrayList<>();
-        Object instance = Instance();
+        Object instance = Instance(statements);
         if (instance != null) { 
             for (int i = 0; i < numberOfStat; i++) {
                 Statement statement = generateRandomStatement(instance);
@@ -54,8 +54,11 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
                 }
             }
         }
+        for (Statement st: statements) {
+            System.out.println(st.toString()+ "\n");
+        }
         
-        return new MyChromosome(mutation, crossover, statements);
+        return new MyChromosome(statements);
     }
 
     public Statement generateRandomStatement(Object instance) {
@@ -97,12 +100,13 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         
     }
 
-    public Object Instance() {
+    public Object Instance(List<Statement> statements) {
         try {
             Constructor<?>[] constructs = CUT.getConstructors();
             if (constructs.length > 0) {
-                Constructor<?> construct = constructs[Randomness.random().nextInt(constructs.length)];
+                Constructor<?> construct = constructs[0];
                 Object[] parameters = generateRandomParameters(construct.getParameterTypes());
+                statements.add(new ConstructorStat(construct , parameters));
                 return construct.newInstance(parameters);
             }
         } catch (Exception e) {
