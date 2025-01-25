@@ -25,7 +25,7 @@ class MyChromosomeGeneratorTest {
     private Mutation<MyChromosome> mutation;
     private Crossover<MyChromosome> crossover;
     private MyChromosomeGenerator generator;
-    private Class<Stack> CUT = Stack.class;
+    private Class<SimpleExample> CUT = SimpleExample.class;
 
     @BeforeEach
     void setUp() {

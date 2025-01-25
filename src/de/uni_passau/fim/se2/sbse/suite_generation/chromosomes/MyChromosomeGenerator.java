@@ -78,10 +78,12 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
 
         Method method = methods[random.nextInt(methods.length)];
         Object[] parameters = generateRandomParameters(method.getParameterTypes());
+        method.setAccessible(true);
         if (Modifier.isPublic(method.getModifiers())) {
             //System.out.println("Field is public");
             return new MethodStat(targetObject, method, parameters);
         }
+    
         return null;
         
     }
@@ -92,6 +94,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
 
         Field field = fields[random.nextInt(fields.length)];
         Object value = generateRandomValue(field.getType());
+        field.setAccessible(true);
         if (Modifier.isPublic(field.getModifiers())) {
             //System.out.println("Field is public");
             return new AssignmentStat(targetObject,field, value);
