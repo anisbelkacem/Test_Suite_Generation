@@ -60,8 +60,6 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
                     double bestDistance = (bestCandidate == null) 
                         ? Double.MAX_VALUE 
                         : bestFitnessFunction.applyAsDouble(bestCandidate);
-                    stoppingCondition.notifyFitnessEvaluation();
-
                     if (distance < bestDistance) {
                         bestSolutions.put(branch, candidate);
                         
