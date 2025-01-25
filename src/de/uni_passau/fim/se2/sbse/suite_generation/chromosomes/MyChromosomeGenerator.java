@@ -76,15 +76,16 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         Object[] parameters = generateRandomParameters(method.getParameterTypes());
         //method.setAccessible(true);
         //return new MethodStat(targetObject, method, parameters);
-        /*if (Modifier.isStatic(method.getModifiers())) {
+        if (Modifier.isStatic(method.getModifiers())) {
             return null; 
-        }*/
-        if (Modifier.isPublic(method.getModifiers())) {
+        }
+        return new MethodStat(targetObject, method, parameters);
+        /*if (Modifier.isPublic(method.getModifiers())) {
             //System.out.println("Field is public");
             return new MethodStat(targetObject, method, parameters);
-        }
+        }*/
     
-        return null;
+        //return null;
         
     }
 
