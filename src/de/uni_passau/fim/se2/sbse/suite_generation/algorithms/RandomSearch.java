@@ -49,11 +49,12 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
             for (IBranch branch : uncoveredBranches) {
                 BranchCovFF<C> fitnessFunction = new BranchCovFF<>(branch.getId());
                 double distance = fitnessFunction.applyAsDouble(candidate);
-                stoppingCondition.notifyFitnessEvaluation();
+                
 
                 if (distance == 0.0) { 
                     branchesToRemove.add(branch);
                     bestSolutions.put(branch, candidate);
+                    stoppingCondition.notifyFitnessEvaluation();
                 } else {
                     C bestCandidate = bestSolutions.get(branch);
                     BranchCovFF<C> bestFitnessFunction = new BranchCovFF<>(branch.getId());
@@ -63,14 +64,15 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
 
                     if (bestCandidate == null || distance < bestDistance) {
                         bestSolutions.put(branch, candidate);
+                        stoppingCondition.notifyFitnessEvaluation();
                         
                     }
                 }
             }
             uncoveredBranches.removeAll(branchesToRemove);
-            /*if(bestSolutions.size() % populationSize == 0){
+            if(bestSolutions.size() % populationSize == 0){
                 stoppingCondition.notifyIteration();
-            }*/
+            }
             
         }
         return new ArrayList<>(bestSolutions.values());
