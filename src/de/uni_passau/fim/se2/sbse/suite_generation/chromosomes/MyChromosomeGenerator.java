@@ -42,8 +42,8 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
 
     @Override
     public MyChromosome get() {
-        int numberOfStat = random.nextInt(50) + 1; 
-        //int numberOfStat =50; 
+        //int numberOfStat = random.nextInt(50) + 1; 
+        int numberOfStat =50; 
         List<Statement> statements = new ArrayList<>();
         Object instance = Instance(statements);
         if (instance != null) { 
@@ -96,9 +96,9 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         Object value = generateRandomValue(field.getType());
         //field.setAccessible(true);
         //return new AssignmentStat(targetObject,field, value);
-        if (Modifier.isStatic(field.getModifiers())) {
+        /*if (Modifier.isStatic(field.getModifiers())) {
             return null; 
-        }
+        }*/
         if (Modifier.isPublic(field.getModifiers())) {
             //System.out.println("Field is public");
             return new AssignmentStat(targetObject,field, value);
