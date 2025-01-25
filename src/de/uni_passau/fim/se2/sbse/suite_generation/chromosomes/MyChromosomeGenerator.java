@@ -92,13 +92,13 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         Field field = fields[random.nextInt(fields.length)];
 
         Object value = generateRandomValue(field.getType());
-        field.setAccessible(true);
-        return new AssignmentStat(targetObject,field, value);
-        /*if (Modifier.isPublic(field.getModifiers())) {
+        //field.setAccessible(true);
+        //return new AssignmentStat(targetObject,field, value);
+        if (Modifier.isPublic(field.getModifiers())) {
             //System.out.println("Field is public");
             return new AssignmentStat(targetObject,field, value);
         }
-        return null;*/
+        return null;
         
     }
 
