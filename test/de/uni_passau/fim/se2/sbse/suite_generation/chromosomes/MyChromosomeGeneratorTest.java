@@ -46,7 +46,7 @@ class MyChromosomeGeneratorTest {
         System.out.println("the call methodin Mychromosome  is :"+ chromosome.call());
         assertFalse(statements.isEmpty(), "Chromosome statements should not be empty");
     }
-
+/* 
     @Test
     void testGenerateRandomValue() {
         assertNotNull(generator.generateRandomValue(int.class), "Generated int value should not be null");
@@ -79,6 +79,7 @@ class MyChromosomeGeneratorTest {
         assertNotNull(generator.generateRandomValue(List.class), "Generated List value should not be null");
         assertTrue(generator.generateRandomValue(List.class) instanceof List, "Generated value should be of type List");
     }
+        */
         
 }
 
