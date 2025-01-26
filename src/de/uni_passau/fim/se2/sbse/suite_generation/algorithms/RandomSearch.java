@@ -53,7 +53,7 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
             for (IBranch branch : branchesToCover) {
                 BranchCovFF<C> fitnessFunction = new BranchCovFF(branch.getId());
                 Double distance = fitnessFunction.applyAsDouble(candidate);
-                stoppingCondition.notifyFitnessEvaluation();
+                //stoppingCondition.notifyFitnessEvaluation();
                 if (distance == 0.0) {
                     coveredBranches++;
                 } else {
@@ -65,7 +65,7 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
             
             coverageMap.put(candidate, coveredBranches);
             population.add(candidate);
-            //stoppingCondition.notifyFitnessEvaluation();
+            stoppingCondition.notifyFitnessEvaluation();
         }
 
         // Step 1: Sort by covered branches (descending)
