@@ -69,7 +69,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         }*/
     }
 
-    public MethodStat generateMethodStatement(Object targetObject) {
+    /*public MethodStat generateMethodStatement(Object targetObject) {
         Method[] methods = CUT.getDeclaredMethods();
         if (methods.length == 0) return null;
         Method method = methods[random.nextInt(methods.length)];
@@ -78,7 +78,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         //return new MethodStat(targetObject, method, parameters);
         /*if (Modifier.isStatic(method.getModifiers())) {
             return null; 
-        }*/
+        }
         if (Modifier.isPublic(method.getModifiers())) {
             //System.out.println("Field is public");
             return new MethodStat(targetObject, method, parameters);
@@ -86,8 +86,27 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     
         return null;
         
-    }
+    }*/
 
+    public MethodStat generateMethodStatement(Object targetObject) {
+        Method[] methods = CUT.getDeclaredMethods();
+        List<Method> validMethods = new ArrayList<>();
+        
+        for (Method method : methods) {
+            if (Modifier.isPublic(method.getModifiers()) &&
+                (method.getReturnType() == boolean.class || method.getReturnType() == Boolean.class ||
+                 method.getReturnType() == int.class || method.getReturnType() == Integer.class)) {
+                validMethods.add(method);
+            }
+        }
+        
+        if (validMethods.isEmpty()) return null;
+    
+        Method selectedMethod = validMethods.get(random.nextInt(validMethods.size()));
+        Object[] parameters = generateRandomParameters(selectedMethod.getParameterTypes());
+        return new MethodStat(targetObject, selectedMethod, parameters);
+    }
+    
     public AssignmentStat generateAssignmentStatement(Object targetObject) {
         Field[] fields = CUT.getDeclaredFields();
         if (fields.length == 0) return null;
