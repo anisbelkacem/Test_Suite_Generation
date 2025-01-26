@@ -16,9 +16,8 @@ import org.mockito.Mockito;
 
 import java.util.*;
 
-class RandomSearchTest {
-
-    private RandomSearch randomSearch1;
+class MOSATest {
+    private MOSA<MyChromosome> mosa;
     private BranchTracer mockTracer;
     private Random random;
     private StoppingCondition stoppingCondition;
@@ -53,17 +52,15 @@ class RandomSearchTest {
             doNothing().when(stoppingCondition).notifyFitnessEvaluations(anyInt());
 
             // Initialize RandomSearch and MOSA with mocked dependencies
-            randomSearch1 = new RandomSearch(random, stoppingCondition, 10, SimpleExample.class, mockTracer, branches);
+            mosa = new MOSA<>(random, stoppingCondition, 10, SimpleExample.class, mockTracer, branches);
         }
     }
 
     @Test
     void testAlgorithmsSelectBestTestCases() {
         // Run both algorithms
-        List<MyChromosome> randomSearchResults = randomSearch1.findSolution();
-
-        assertNotNull(randomSearchResults, "RandomSearch results should not be null.");
-        assertFalse(randomSearchResults.isEmpty(), "RandomSearch results should not be empty.");
-
+        List<MyChromosome> mosaResults = mosa.findSolution();
+        assertNotNull(mosaResults, "MOSA results should not be null.");
+        assertFalse(mosaResults.isEmpty(), "MOSA results should not be empty.");
     }
 }
