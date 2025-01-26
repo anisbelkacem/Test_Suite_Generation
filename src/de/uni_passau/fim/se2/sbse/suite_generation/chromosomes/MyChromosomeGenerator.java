@@ -6,6 +6,8 @@ import de.uni_passau.fim.se2.sbse.suite_generation.chromosomes.statements.Constr
 import de.uni_passau.fim.se2.sbse.suite_generation.mutation.Mutation;
 import de.uni_passau.fim.se2.sbse.suite_generation.utils.Randomness;
 import de.uni_passau.fim.se2.sbse.suite_generation.crossover.Crossover;
+import de.uni_passau.fim.se2.sbse.suite_generation.examples.SimpleExample;
+import de.uni_passau.fim.se2.sbse.suite_generation.examples.Stack;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -144,7 +146,8 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
             (type == Integer.class || type == String.class )) {
             return null;
         }
-    
+        if(type==Stack.class)return new Stack(random.random().nextInt(-1024, 1023));
+        if(type==SimpleExample.class)return new SimpleExample(random.random().nextInt(-1024, 1023));
         if (type == int.class || type == Integer.class) return random.random().nextInt(-1024, 1023);
         if (type == double.class || type == Double.class) return random.random().nextDouble();
         if (type == boolean.class || type == Boolean.class) return random.random().nextBoolean();
