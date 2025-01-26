@@ -43,11 +43,11 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     @Override
     public MyChromosome get() {
         //int numberOfStat = random.random().nextInt(30) + 30; 
-        int numberOfStat =20; 
+        int numberOfStat =28; 
         List<Statement> statements = new ArrayList<>();
         Object instance = Instance(statements);
         Object instance1 = Instance(statements);
-        Object instance2 = Instance(statements);
+        //Object instance2 = Instance(statements);
         if (instance != null) { 
             for (int i = 0; i < numberOfStat; i++) {
                 Statement statement = generateRandomStatement(instance);
@@ -57,14 +57,6 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
             }
         }
         if (instance1 != null) { 
-            for (int i = 0; i < numberOfStat; i++) {
-                Statement statement = generateRandomStatement(instance);
-                if (statement != null) {
-                    statements.add(statement);
-                }
-            }
-        }
-        if (instance2 != null) { 
             for (int i = 0; i < numberOfStat; i++) {
                 Statement statement = generateRandomStatement(instance);
                 if (statement != null) {
