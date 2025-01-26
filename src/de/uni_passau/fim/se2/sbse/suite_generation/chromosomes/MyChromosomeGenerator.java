@@ -75,16 +75,16 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         Method method = methods[random.random().nextInt(methods.length)];
         Object[] parameters = generateRandomParameters(method.getParameterTypes());
         //method.setAccessible(true);
-        return new MethodStat(targetObject, method, parameters);
+        //return new MethodStat(targetObject, method, parameters);
         /*if (Modifier.isStatic(method.getModifiers())) {
             return null; 
-        }
+        }*/
         if (Modifier.isPublic(method.getModifiers())) {
             //System.out.println("Field is public");
             return new MethodStat(targetObject, method, parameters);
         }
     
-        return null;*/
+        return null;
         
     }
 
@@ -163,7 +163,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     public String generateRandomString(Class<?> type) {
         //Randomness random = new Randomness();
         if (type == String.class) {
-            int length =random.random().nextInt(50) ;  
+            int length =random.random().nextInt(100) ;  
             StringBuilder sb = new StringBuilder(length);
             String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*-+.-_.:,;?«»()[]&$#!|";
             for (int i = 0; i < length; i++) {
