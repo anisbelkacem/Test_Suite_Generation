@@ -60,8 +60,8 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
 
     public Statement generateRandomStatement(Object instance) {
         //return generateMethodStatement(instance); 
-        double probability = random.random().nextDouble(); 
-        double bias=random.random().nextDouble();
+        int probability = random.random().nextInt(10); 
+        int bias=random.random().nextInt(10);
         if (probability < bias) { 
             return generateMethodStatement(instance); 
         } else {
