@@ -28,9 +28,10 @@ public class BranchCovFF<C> implements FitnessFunction<C> {
         }
         double Dist = branchDist.getOrDefault(branchId, Double.MAX_VALUE);
         //System.out.println("the Dist  is :"+ Dist +"\n");
-        //if(Dist==Double.MAX_VALUE) return 0.0;
+        if(Dist==Double.MAX_VALUE) return 0.0;
+        else if(Dist==0)return Double.MAX_VALUE;
         //return (double) Dist/ (1.0 + Dist);
-        return Dist; 
+        
     }
 
 
