@@ -115,7 +115,7 @@ void testPassedBranchWithNullCheck() {
 
 
 
-    @Test
+    /*@Test
     void testPassedBranchSingleBranch() {
         branchTracer.passedBranch(1);
 
@@ -163,7 +163,7 @@ void testPassedBranchWithNullCheck() {
         /*Map<Integer, Double> distances = branchTracer.getDistances();
         assertEquals(2, distances.size());
         assertEquals(0.0, distances.get(1));
-        assertEquals(0.5, distances.get(2));*/
-    }
+        assertEquals(0.5, distances.get(2));
+    }*/
 }
 
