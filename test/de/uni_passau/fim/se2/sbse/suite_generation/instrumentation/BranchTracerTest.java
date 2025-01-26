@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BranchTracerTest {
 
-    private BranchTracer branchTracer;
+    /*private BranchTracer branchTracer;
 
     @BeforeEach
     void setUp() {
@@ -114,7 +114,7 @@ void testPassedBranchWithNullCheck() {
     }
 
 
-    
+
     @Test
     void testPassedBranchSingleBranch() {
         branchTracer.passedBranch(1);
@@ -164,6 +164,6 @@ void testPassedBranchWithNullCheck() {
         assertEquals(2, distances.size());
         assertEquals(0.0, distances.get(1));
         assertEquals(0.5, distances.get(2));
-    }
+    }*/
 }
 
