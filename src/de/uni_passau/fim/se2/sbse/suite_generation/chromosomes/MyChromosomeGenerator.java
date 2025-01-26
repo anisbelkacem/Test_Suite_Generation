@@ -42,8 +42,8 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
 
     @Override
     public MyChromosome get() {
-        int numberOfStat = random.random().nextInt(30) + 30; 
-        //int numberOfStat =50; 
+        //int numberOfStat = random.random().nextInt(30) + 30; 
+        int numberOfStat =60; 
         List<Statement> statements = new ArrayList<>();
         Object instance = Instance(statements);
         if (instance != null) { 
