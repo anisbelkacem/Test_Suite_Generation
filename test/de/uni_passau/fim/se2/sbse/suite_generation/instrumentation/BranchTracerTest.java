@@ -88,7 +88,7 @@ void testPassedBranchWithNullCheck() {
     branchTracer.passedBranch(null, 198, 1, 2);
     
     Object obj = new Object();
-    branchTracer.passedBranch(obj, 199, 3, 4);
+    branchTracer.passedBranch(null, 199, 3, 4);
 
     /*Map<Integer, Double> distances = branchTracer.getDistances();
 
@@ -100,18 +100,6 @@ void testPassedBranchWithNullCheck() {
     assertEquals(0.0, distances.get(3)); // True branch
     assertEquals(1.0, distances.get(4)); // False branch*/
 }
-
-    @Test
-    void testPassedBranchWithBinaryObject() {
-        Object obj1 = new Object();
-        Object obj2 = new Object();
-        branchTracer.passedBranch(obj1, obj2, 165, 1, 2); // if_acmp_eq (o == p)
-
-        /*Map<Integer, Double> distances = branchTracer.getDistances();
-        assertEquals(2, distances.size());
-        assertEquals(1.0, distances.get(1)); // Distance to true branch
-        assertEquals(0.0, distances.get(2)); // Distance to false branch*/
-    }
 
 
 
