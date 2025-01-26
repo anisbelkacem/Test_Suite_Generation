@@ -110,16 +110,6 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     public Object Instance(List<Statement> statements) {
         try {
             Constructor<?>[] constructs = CUT.getConstructors();
-
-            for(Constructor<?>  constr : constructs )
-            {
-                if (!Modifier.isPublic(constr.getModifiers()))
-                {
-                    Object[] parameters = generateRandomParameters(constr.getParameterTypes());
-                    statements.add(new ConstructorStat(constr, parameters));
-                }
-                
-            }
             if (constructs.length > 0) {
                 Constructor<?> construct=constructs[Randomness.random().nextInt(constructs.length) ];
                 while(!Modifier.isPublic(construct.getModifiers())){
