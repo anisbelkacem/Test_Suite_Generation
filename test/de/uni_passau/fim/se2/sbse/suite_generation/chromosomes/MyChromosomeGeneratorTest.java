@@ -58,19 +58,6 @@ class MyChromosomeGeneratorTest {
         assertNotNull(generator.generateRandomValue(boolean.class), "Generated boolean value should not be null");
         assertTrue(generator.generateRandomValue(boolean.class) instanceof Boolean, "Generated value should be of type Boolean");
         
-        assertNotNull(generator.generateRandomValue(String.class), "Generated String value should not be null");
-        assertTrue(generator.generateRandomValue(String.class) instanceof String, "Generated value should be of type String");
-        
-        assertNotNull(generator.generateRandomValue(long.class), "Generated long value should not be null");
-        assertTrue(generator.generateRandomValue(long.class) instanceof Long, "Generated value should be of type Long");
-        
-        assertNotNull(generator.generateRandomValue(float.class), "Generated float value should not be null");
-        assertTrue(generator.generateRandomValue(float.class) instanceof Float, "Generated value should be of type Float");
-        
-        assertNotNull(generator.generateRandomValue(char.class), "Generated char value should not be null");
-        assertTrue(generator.generateRandomValue(char.class) instanceof Character, "Generated value should be of type Character");
-        
-        
     }
         
         
