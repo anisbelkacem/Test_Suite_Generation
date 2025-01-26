@@ -140,9 +140,9 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     @SuppressWarnings("static-access")
     public Object generateRandomValue(Class<?> type) {
         
-        double nullProbability = 0.1;
+        double nullProbability = 0.2;
         if (random.random().nextDouble() < nullProbability && 
-            (type == Integer.class || type == String.class || List.class.isAssignableFrom(type))) {
+            (type == Integer.class || type == String.class )) {
             return null;
         }
     
