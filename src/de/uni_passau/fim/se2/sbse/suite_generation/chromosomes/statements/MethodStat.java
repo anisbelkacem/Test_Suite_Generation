@@ -31,6 +31,7 @@ public class MethodStat implements Statement {
     @Override
     public void run() {
         try {
+            method.setAccessible(true);
             method.invoke(targetObject, parameters);
         } catch (IllegalAccessException e) {
             throw new RuntimeException("Illegal access to method: " + method.getName() + " on " + targetObject.getClass().getName(), e);

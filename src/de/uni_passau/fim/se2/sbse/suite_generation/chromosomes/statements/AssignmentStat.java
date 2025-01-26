@@ -27,6 +27,7 @@ public class AssignmentStat implements Statement {
     @Override
     public void run() {
         try {
+            field.setAccessible(true);
             field.set(targetObject, value);
         } catch (Exception e) {
             throw new RuntimeException("Error while running Assignement "+ e);
