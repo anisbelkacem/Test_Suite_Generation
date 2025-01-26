@@ -136,30 +136,59 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         }
         return params;
     }
-
+    
     @SuppressWarnings("static-access")
     public Object generateRandomValue(Class<?> type) {
         
         double nullProbability = 0.1;
-        if (random.random().nextDouble() < nullProbability && (type == Integer.class || type == String.class )) {
+        if (random.random().nextDouble() < nullProbability && 
+            (type == Integer.class || type == String.class || List.class.isAssignableFrom(type))) {
             return null;
         }
-        //Randomness random = new Randomness();
+    
         if (type == int.class || type == Integer.class) return random.random().nextInt(-1024, 1023);
         if (type == double.class || type == Double.class) return random.random().nextDouble();
         if (type == boolean.class || type == Boolean.class) return random.random().nextBoolean();
-        if (type == String.class) return generateRandomString(type);
+        if (type == String.class) return generateRandomString();
         if (type == long.class || type == Long.class) return random.random().nextLong();
         if (type == float.class || type == Float.class) return random.random().nextFloat();
         if (type == char.class || type == Character.class) return (char) random.random().nextInt(32, 127);
         if (type == byte.class || type == Byte.class) return (byte) random.random().nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE);
         if (type == short.class || type == Short.class) return (short) random.random().nextInt(Short.MIN_VALUE, Short.MAX_VALUE);
-        if (type == UUID.class) return UUID.randomUUID(); 
+        
+        // Handle List<String> and List<Boolean>
+        if (type == List.class || List.class.isAssignableFrom(type)) {
+            return generateRandomList(type);
+        }
+    
         return null;
     }
     
+    private Object generateRandomList(Class<?> type) {
+        Random rand = new Random();
+        int size = rand.nextInt(10) + 1; 
+    
+        if (type == List.class || type.getTypeName().equals("java.util.List<java.lang.String>")) {
+            List<String> stringList = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                stringList.add(generateRandomString());
+            }
+            return stringList;
+        } else if (type == List.class || type.getTypeName().equals("java.util.List<java.lang.Boolean>")) {
+            List<Boolean> booleanList = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                booleanList.add(rand.nextBoolean());
+            }
+            return booleanList;
+        }
+    
+        return null;
+    }
+    
+    
+    
 
-    public String generateRandomString(Class<?> type) {
+    public String generateRandomString() {
         //Randomness random = new Randomness();
         int length =random.random().nextInt(100) ;  
         StringBuilder sb = new StringBuilder(length);
