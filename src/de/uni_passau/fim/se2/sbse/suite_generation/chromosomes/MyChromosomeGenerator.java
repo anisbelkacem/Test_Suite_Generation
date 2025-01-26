@@ -43,7 +43,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     @Override
     public MyChromosome get() {
         //int numberOfStat = random.nextInt(50) + 1; 
-        int numberOfStat =60; 
+        int numberOfStat =50; 
         List<Statement> statements = new ArrayList<>();
         Object instance = Instance(statements);
         if (instance != null) { 
