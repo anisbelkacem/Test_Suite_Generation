@@ -12,7 +12,7 @@ public class MyMutation<C extends Chromosome<C>> implements Mutation<C> {
 
     @Override
     public C apply(final C parent) {
-        /*if (parent == null) {
+        if (parent == null) {
             throw new NullPointerException("Parent chromosome cannot be null");
         }
         C offspring = parent.copy();
@@ -21,16 +21,20 @@ public class MyMutation<C extends Chromosome<C>> implements Mutation<C> {
         if (statements.isEmpty()) {
             return offspring;
         }
+        
         int indexToMutate = random.nextInt(statements.size());
-        Statement newStatement = generateRandomStatement();
-        statements.set(indexToMutate, newStatement);*/
+        Statement mutatedStatement = mutateStatement(statements.get(indexToMutate));
+        statements.set(indexToMutate, mutatedStatement);
 
-        return parent;
+        return offspring;
+    }
+    
+    private Statement mutateStatement(Statement statement) {
+        return statement; 
     }
 
     @Override
     public String toString() {
         return "Random mutation";
     }
-    
 }

@@ -44,18 +44,27 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
         List<C> population = new ArrayList<>();
         Map<C, Integer> coverageMap = new HashMap<>();
         Map<C, Double> distanceMap = new HashMap<>();
+        List<C> eliteChromosomes = new ArrayList<>(); // Archive of best candidates
 
         while (!stoppingCondition.searchMustStop() && !uncoveredBranches.isEmpty()) {
-            C candidate = chromosomeGenerator.get();
+            C candidate;
+            if (!eliteChromosomes.isEmpty() && random.nextDouble() < 0.3) {
+                // 30% chance to mutate an elite chromosome instead of random generation
+                C parent = eliteChromosomes.get(random.nextInt(eliteChromosomes.size()));
+                candidate = (C) mutation.apply(parent);
+            } else {
+                candidate = chromosomeGenerator.get();
+            }
+            
             int coveredBranches = 0;
             double totalDistance = 0.0;
             
             for (IBranch branch : branchesToCover) {
                 BranchCovFF<C> fitnessFunction = new BranchCovFF(branch.getId());
                 Double distance = fitnessFunction.applyAsDouble(candidate);
-                stoppingCondition.notifyFitnessEvaluation();
                 if (distance == 0.0) {
                     coveredBranches++;
+                    uncoveredBranches.remove(branch);
                 } else {
                     distanceMap.put(candidate, distanceMap.getOrDefault(candidate, Double.MAX_VALUE));
                     distanceMap.put(candidate, Math.min(distanceMap.get(candidate), distance));
@@ -66,6 +75,15 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
             coverageMap.put(candidate, coveredBranches);
             population.add(candidate);
             stoppingCondition.notifyFitnessEvaluation();
+            
+            // Maintain an archive of top candidates
+            if (eliteChromosomes.size() < 10 || coveredBranches > coverageMap.get(eliteChromosomes.get(eliteChromosomes.size() - 1))) {
+                eliteChromosomes.add(candidate);
+                eliteChromosomes.sort((c1, c2) -> Integer.compare(coverageMap.get(c2), coverageMap.get(c1)));
+                if (eliteChromosomes.size() > 10) {
+                    eliteChromosomes.remove(eliteChromosomes.size() - 1);
+                }
+            }
         }
 
         // Step 1: Sort by covered branches (descending)
@@ -81,11 +99,13 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
         // Step 3: Sort each group by branch distance (ascending)
         List<C> sortedPopulation = new ArrayList<>();
         for (List<C> group : groupedPopulation.values()) {
-            group.sort(Comparator.comparingDouble(c -> distanceMap.getOrDefault(c, Double.MAX_VALUE)));
+            group.sort(Comparator.comparingDouble(distanceMap::get));
             sortedPopulation.addAll(group);
         }
+        
         return sortedPopulation.subList(0, Math.min(populationSize, sortedPopulation.size()));
     }
+
 
     @Override
     public StoppingCondition getStoppingCondition() {
