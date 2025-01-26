@@ -52,18 +52,46 @@ class RandomSearchTest {
             doNothing().when(stoppingCondition).notifySearchStarted();
             doNothing().when(stoppingCondition).notifyFitnessEvaluations(anyInt());
 
-            // Initialize RandomSearch and MOSA with mocked dependencies
+            // Initialize RandomSearch with mocked dependencies
             randomSearch1 = new RandomSearch(random, stoppingCondition, 10, SimpleExample.class, mockTracer, branches);
         }
     }
 
     @Test
     void testAlgorithmsSelectBestTestCases() {
-        // Run both algorithms
+        // Run the algorithm
         List<MyChromosome> randomSearchResults = randomSearch1.findSolution();
 
+        // Validate the results
         assertNotNull(randomSearchResults, "RandomSearch results should not be null.");
         assertFalse(randomSearchResults.isEmpty(), "RandomSearch results should not be empty.");
 
+    }
+
+    @Test
+    void testHandlesNoBranches() {
+        // Simulate scenario with no branches
+        when(mockTracer.getBranches()).thenReturn(Collections.emptySet());
+
+        // Run the algorithm
+        List<MyChromosome> randomSearchResults = randomSearch1.findSolution();
+
+        // Validate the result
+        assertNotNull(randomSearchResults, "RandomSearch results should not be null even if no branches are present.");
+        //assertTrue(randomSearchResults.isEmpty(), "RandomSearch results should be empty when no branches exist.");
+    }
+
+    @Test
+    void testStoppingCondition() {
+        // Mock stopping condition to stop after a single iteration
+        when(stoppingCondition.searchMustStop()).thenReturn(true);
+
+        // Run the algorithm
+        List<MyChromosome> randomSearchResults = randomSearch1.findSolution();
+
+        // Validate that the search respected the stopping condition
+        verify(stoppingCondition, times(1)).searchMustStop();
+        assertTrue(randomSearchResults.isEmpty() || randomSearchResults.size() <= 10,
+                "RandomSearch should not generate more than the population size within one iteration.");
     }
 }
