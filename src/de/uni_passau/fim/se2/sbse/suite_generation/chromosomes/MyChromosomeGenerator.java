@@ -31,13 +31,13 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     private final Mutation<MyChromosome> mutation;
     private final Crossover<MyChromosome> crossover;
     private final Class<?> CUT;
-    private final Random random;
+    private final Randomness random;
 
     public MyChromosomeGenerator(Class<?> CUT, Mutation<MyChromosome> mutation, Crossover<MyChromosome> crossover) {
         this.CUT = CUT;
         this.mutation = mutation;
         this.crossover = crossover;
-        this.random = new Random();
+        this.random = new Randomness();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     public MethodStat generateMethodStatement(Object targetObject) {
         Method[] methods = CUT.getDeclaredMethods();
         if (methods.length == 0) return null;
-        Method method = methods[random.nextInt(methods.length)];
+        Method method = methods[random.random().nextInt(methods.length)];
         Object[] parameters = generateRandomParameters(method.getParameterTypes());
         //method.setAccessible(true);
         //return new MethodStat(targetObject, method, parameters);
@@ -91,7 +91,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     public AssignmentStat generateAssignmentStatement(Object targetObject) {
         Field[] fields = CUT.getDeclaredFields();
         if (fields.length == 0) return null;
-        Field field = fields[random.nextInt(fields.length)];
+        Field field = fields[random.random().nextInt(fields.length)];
 
         Object value = generateRandomValue(field.getType());
         //field.setAccessible(true);
@@ -139,7 +139,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
 
     @SuppressWarnings("static-access")
     public Object generateRandomValue(Class<?> type) {
-        Randomness random = new Randomness();
+        //Randomness random = new Randomness();
         if (type == int.class || type == Integer.class) return random.random().nextInt(-1024, 1023);
         if (type == double.class || type == Double.class) return random.random().nextDouble();
         if (type == boolean.class || type == Boolean.class) return random.random().nextBoolean();
@@ -161,7 +161,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     
 
     public String generateRandomString(Class<?> type) {
-        Randomness random = new Randomness();
+        //Randomness random = new Randomness();
         if (type == String.class) {
             int length =random.random().nextInt(50) ;  
             StringBuilder sb = new StringBuilder(length);
