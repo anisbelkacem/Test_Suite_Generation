@@ -84,6 +84,7 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
             group.sort(Comparator.comparingDouble(c -> distanceMap.getOrDefault(c, Double.MAX_VALUE)));
             sortedPopulation.addAll(group);
         }
+        stoppingCondition.notifyFitnessEvaluations(sortedPopulation.size());
         return sortedPopulation.subList(0, Math.min(populationSize, sortedPopulation.size()));
     }
 
