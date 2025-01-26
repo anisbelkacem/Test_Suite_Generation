@@ -21,15 +21,16 @@ public class BranchCovFF<C> implements FitnessFunction<C> {
         }
 
         Map<Integer, Double> branchDist = ((MyChromosome) chromosome).call(); 
-        System.out.println("the call methodin Mychromosome  is :"+ branchDist+"\n");
+        //System.out.println("the call methodin Mychromosome  is :"+ branchDist+"\n");
 
         if (branchDist == null) {
             throw new NullPointerException("Branch distances cannot be null.");
         }
         double Dist = branchDist.getOrDefault(branchId, Double.MAX_VALUE);
-        System.out.println("the Dist  is :"+ Dist +"\n");
-        if(Dist==Double.MAX_VALUE) return 0.0;
-        return (double) Dist/ (1.0 + Dist); 
+        //System.out.println("the Dist  is :"+ Dist +"\n");
+        //if(Dist==Double.MAX_VALUE) return 0.0;
+        //return (double) Dist/ (1.0 + Dist);
+        return Dist; 
     }
 
 
