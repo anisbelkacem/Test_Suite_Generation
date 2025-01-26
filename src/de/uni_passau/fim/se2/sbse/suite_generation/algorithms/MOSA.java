@@ -14,11 +14,12 @@ import de.uni_passau.fim.se2.sbse.suite_generation.instrumentation.IBranchTracer
 import de.uni_passau.fim.se2.sbse.suite_generation.mutation.MyMutation;
 import de.uni_passau.fim.se2.sbse.suite_generation.stopping_conditions.StoppingCondition;
 import de.uni_passau.fim.se2.sbse.suite_generation.utils.Pair;
+import de.uni_passau.fim.se2.sbse.suite_generation.utils.Randomness;
 
 import java.util.*;
 
 public class MOSA<C extends Chromosome<C>> implements GeneticAlgorithm<C> {
-    private final Random random;
+    private final Randomness random;
     private final int populationSize;
     private final StoppingCondition stoppingCondition;
     private final ChromosomeGenerator<C> chromosomeGenerator;
@@ -31,7 +32,7 @@ public class MOSA<C extends Chromosome<C>> implements GeneticAlgorithm<C> {
             Random random, StoppingCondition stoppingCondition,
             int populationSize, Class<?> testGenerationTarget,
             IBranchTracer branchTracer, Set<IBranch> branchesToCover) {
-        this.random = random;
+        this.random = new Randomness();
         this.stoppingCondition = stoppingCondition;
         this.populationSize = populationSize;
         this.chromosomeGenerator = (ChromosomeGenerator<C>) new MyChromosomeGenerator(testGenerationTarget, mutation, crossover);
@@ -105,8 +106,8 @@ public class MOSA<C extends Chromosome<C>> implements GeneticAlgorithm<C> {
     private List<C> generateNewPopulation(List<C> selectedParents) {
         List<C> newPopulation = new ArrayList<>();
         while (newPopulation.size() < populationSize) {
-            C parent1 = selectedParents.get(random.nextInt(selectedParents.size()));
-            C parent2 = selectedParents.get(random.nextInt(selectedParents.size()));
+            C parent1 = selectedParents.get(random.random().nextInt(selectedParents.size()));
+            C parent2 = selectedParents.get(random.random().nextInt(selectedParents.size()));
             Pair<C> offspring = crossover.apply(parent1, parent2);
             C offspring1 = (C) mutation.apply(offspring.getFst());
             C offspring2 = (C) mutation.apply(offspring.getSnd());

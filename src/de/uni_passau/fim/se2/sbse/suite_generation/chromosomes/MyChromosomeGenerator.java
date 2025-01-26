@@ -139,6 +139,10 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
 
     @SuppressWarnings("static-access")
     public Object generateRandomValue(Class<?> type) {
+        double nullProbability = 0.2;
+        if (random.random().nextDouble() < nullProbability) {
+            return null;
+        }
         //Randomness random = new Randomness();
         if (type == int.class || type == Integer.class) return random.random().nextInt(-1024, 1023);
         if (type == double.class || type == Double.class) return random.random().nextDouble();
@@ -162,17 +166,13 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
 
     public String generateRandomString(Class<?> type) {
         //Randomness random = new Randomness();
-        if (type == String.class) {
-            int length =random.random().nextInt(100) ;  
-            StringBuilder sb = new StringBuilder(length);
-            String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*-+.-_.:,;?«»()[]&$#!|";
-            for (int i = 0; i < length; i++) {
-                int index = random.random().nextInt(characters.length());
-                sb.append(characters.charAt(index));
-            }
-            return sb.toString(); 
+        int length =random.random().nextInt(100) ;  
+        StringBuilder sb = new StringBuilder(length);
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*-+.-_.:,;?«»()[]&$#!|";
+        for (int i = 0; i < length; i++) {
+            int index = random.random().nextInt(characters.length());
+            sb.append(characters.charAt(index));
         }
-        
-        return null;
+        return sb.toString(); 
     }
 }

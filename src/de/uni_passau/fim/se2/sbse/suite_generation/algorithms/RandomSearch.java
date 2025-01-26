@@ -67,19 +67,13 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
             population.add(candidate);
             stoppingCondition.notifyFitnessEvaluation();
         }
-
-        // Step 1: Sort by covered branches (descending)
         population.sort((c1, c2) -> Integer.compare(coverageMap.get(c2), coverageMap.get(c1)));
-        
-        // Step 2: Group by covered branches
         Map<Integer, List<C>> groupedPopulation = new TreeMap<>(Collections.reverseOrder());
         for (C chromosome : population) {
             int covered = coverageMap.get(chromosome);
             groupedPopulation.computeIfAbsent(covered, k -> new ArrayList<>()).add(chromosome);
             
         }
-        
-        // Step 3: Sort each group by branch distance (ascending)
         List<C> sortedPopulation = new ArrayList<>();
         for (List<C> group : groupedPopulation.values()) {
             group.sort(Comparator.comparingDouble(c -> distanceMap.getOrDefault(c, Double.MAX_VALUE)));
