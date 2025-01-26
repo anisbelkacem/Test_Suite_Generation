@@ -113,6 +113,8 @@ void testPassedBranchWithNullCheck() {
         assertEquals(0.0, distances.get(2)); // Distance to false branch
     }
 
+
+    
     @Test
     void testPassedBranchSingleBranch() {
         branchTracer.passedBranch(1);
