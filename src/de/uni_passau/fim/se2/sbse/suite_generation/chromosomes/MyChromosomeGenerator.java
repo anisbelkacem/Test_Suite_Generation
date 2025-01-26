@@ -137,35 +137,37 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         return params;
     }
 
+    @SuppressWarnings("static-access")
     public Object generateRandomValue(Class<?> type) {
-        if (type == int.class || type == Integer.class) return random.nextInt(-1024, 1023);
-        if (type == double.class || type == Double.class) return random.nextDouble();
-        if (type == boolean.class || type == Boolean.class) return random.nextBoolean();
+        Randomness random = new Randomness();
+        if (type == int.class || type == Integer.class) return random.random().nextInt(-1024, 1023);
+        if (type == double.class || type == Double.class) return random.random().nextDouble();
+        if (type == boolean.class || type == Boolean.class) return random.random().nextBoolean();
         if (type == String.class) return generateRandomString(type);
-        if (type == long.class || type == Long.class) return random.nextLong();
-        if (type == float.class || type == Float.class) return random.nextFloat();
-        if (type == char.class || type == Character.class) return (char) random.nextInt(32, 127);
-        if (type == byte.class || type == Byte.class) return (byte) random.nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE);
-        if (type == short.class || type == Short.class) return (short) random.nextInt(Short.MIN_VALUE, Short.MAX_VALUE);
-        if (type == BigDecimal.class) return new BigDecimal(random.nextDouble()).setScale(2, RoundingMode.HALF_UP);
-        if (type == BigInteger.class) return new BigInteger(130, random); 
-        if (type == Date.class) return new Date(random.nextLong()); 
-        if (type == LocalDate.class) return LocalDate.ofEpochDay(random.nextLong()); 
-        if (type == LocalDateTime.class) return LocalDateTime.ofEpochSecond(random.nextLong(), 0, ZoneOffset.UTC);
-        if (type == Instant.class) return Instant.ofEpochSecond(random.nextLong()); 
+        if (type == long.class || type == Long.class) return random.random().nextLong();
+        if (type == float.class || type == Float.class) return random.random().nextFloat();
+        if (type == char.class || type == Character.class) return (char) random.random().nextInt(32, 127);
+        if (type == byte.class || type == Byte.class) return (byte) random.random().nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE);
+        if (type == short.class || type == Short.class) return (short) random.random().nextInt(Short.MIN_VALUE, Short.MAX_VALUE);
+        if (type == BigDecimal.class) return new BigDecimal(random.random().nextDouble()).setScale(2, RoundingMode.HALF_UP);
+        if (type == BigInteger.class) return new BigInteger(130, random.random()); 
+        if (type == Date.class) return new Date(random.random().nextLong()); 
+        if (type == LocalDate.class) return LocalDate.ofEpochDay(random.random().nextLong()); 
+        if (type == LocalDateTime.class) return LocalDateTime.ofEpochSecond(random.random().nextLong(), 0, ZoneOffset.UTC);
+        if (type == Instant.class) return Instant.ofEpochSecond(random.random().nextLong()); 
         if (type == UUID.class) return UUID.randomUUID(); 
         return null;
     }
     
 
     public String generateRandomString(Class<?> type) {
-        Random random = new Random();
+        Randomness random = new Randomness();
         if (type == String.class) {
-            int length =random.nextInt(50) ;  
+            int length =random.random().nextInt(50) ;  
             StringBuilder sb = new StringBuilder(length);
             String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*-+.-_.:,;?«»()[]&$#!|";
             for (int i = 0; i < length; i++) {
-                int index = random.nextInt(characters.length());
+                int index = random.random().nextInt(characters.length());
                 sb.append(characters.charAt(index));
             }
             return sb.toString(); 

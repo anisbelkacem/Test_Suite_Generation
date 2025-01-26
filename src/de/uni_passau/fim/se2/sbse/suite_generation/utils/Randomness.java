@@ -18,7 +18,7 @@ public class Randomness {
     // Internal source of randomness.
     private static final Random random = new Random();
 
-    private Randomness() {
+    public Randomness() {
         // private constructor to prevent instantiation.
     }
 
