@@ -76,6 +76,8 @@ public class RandomSearch<C extends Chromosome<C>> implements GeneticAlgorithm<C
         for (C chromosome : population) {
             int covered = coverageMap.get(chromosome);
             groupedPopulation.computeIfAbsent(covered, k -> new ArrayList<>()).add(chromosome);
+            stoppingCondition.notifyFitnessEvaluation();
+
         }
         
         // Step 3: Sort each group by branch distance (ascending)
