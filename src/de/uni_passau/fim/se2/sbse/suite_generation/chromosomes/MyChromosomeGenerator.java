@@ -141,7 +141,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     public Object generateRandomValue(Class<?> type) {
         
         double nullProbability = 0.1;
-        if (random.random().nextDouble() < nullProbability && (type == Integer.class)) {
+        if (random.random().nextDouble() < nullProbability && (type == Integer.class || type == Float.class || type == Double.class || type == Long.class || type == Short.class || type == Byte.class || type == Boolean.class)) {
             return null;
         }
         //Randomness random = new Randomness();
