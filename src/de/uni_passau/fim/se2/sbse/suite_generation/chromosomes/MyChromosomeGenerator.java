@@ -46,17 +46,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         int numberOfStat =30; 
         List<Statement> statements = new ArrayList<>();
         Object instance = Instance(statements);
-        Object instance1 = Instance(statements);
-        //Object instance2 = Instance(statements);
         if (instance != null) { 
-            for (int i = 0; i < numberOfStat; i++) {
-                Statement statement = generateRandomStatement(instance);
-                if (statement != null) {
-                    statements.add(statement);
-                }
-            }
-        }
-        if (instance1 != null) { 
             for (int i = 0; i < numberOfStat; i++) {
                 Statement statement = generateRandomStatement(instance);
                 if (statement != null) {
@@ -120,14 +110,18 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     public Object Instance(List<Statement> statements) {
         try {
             Constructor<?>[] constructs = CUT.getConstructors();
+            for(Constructor<?>  constr : constructs )
+            {
+                Object[] parameters = generateRandomParameters(constr.getParameterTypes());
+                statements.add(new ConstructorStat(constr, parameters));
+            }
             if (constructs.length > 0) {
                 Constructor<?> construct=constructs[Randomness.random().nextInt(constructs.length) ];
                 while(!Modifier.isPublic(construct.getModifiers())){
                     construct=constructs[Randomness.random().nextInt(constructs.length)];
                 }
-                
                 Object[] parameters = generateRandomParameters(construct.getParameterTypes());
-                statements.add(new ConstructorStat(construct , parameters));
+                //statements.add(new ConstructorStat(construct , parameters));
                 return construct.newInstance(parameters);
             }
             else {
