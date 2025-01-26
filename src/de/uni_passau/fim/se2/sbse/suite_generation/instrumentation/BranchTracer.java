@@ -553,7 +553,7 @@ public final class BranchTracer implements IBranchTracer {
      * @param falseBranch   the unique number identifying the {@code false} branch
      * @param distanceFalse the distance to taking the {@code false} branch
      */
-    private void traceBranchDistance(final int trueBranch, final double distanceTrue, 
+    public void traceBranchDistance(final int trueBranch, final double distanceTrue, 
                                  final int falseBranch, final double distanceFalse) {
         if (distanceTrue < 0 || distanceFalse < 0) {
             throw new IllegalArgumentException("Distances must be non-negative");

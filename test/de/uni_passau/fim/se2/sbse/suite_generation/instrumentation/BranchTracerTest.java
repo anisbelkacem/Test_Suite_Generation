@@ -69,8 +69,36 @@ class BranchTracerTest {
         assertEquals(0.0, distances.get(1)); // Root branch distance is 0
     }
 
-    
+    @Test
+    void testTraceBranchDistanceWithNegativeDistances() {
+        IllegalArgumentException exception = assertThrows(
+            IllegalArgumentException.class,
+            () -> branchTracer.traceBranchDistance(1, -1.0, 2, 0.5)
+        );
+        assertEquals("Distances must be non-negative", exception.getMessage());
+    }
 
-    
+    @Test
+    void testTraceBranchDistanceWithNaNDistances() {
+        branchTracer = BranchTracer.getInstance();
+        branchTracer.clear();
+        IllegalArgumentException exception = assertThrows(
+            IllegalArgumentException.class,
+            () -> branchTracer.traceBranchDistance(1, Double.NaN, 2, 0.5)
+        );
+        assertEquals("Distances must not be NaN", exception.getMessage());
+    }
+
+    @Test
+    void testTraceBranchDistanceValidValues() {
+        branchTracer = BranchTracer.getInstance();
+        branchTracer.clear();
+        assertDoesNotThrow(() -> branchTracer.traceBranchDistance(1, 0.0, 2, 0.5));
+        
+        Map<Integer, Double> distances = branchTracer.getDistances();
+        assertEquals(2, distances.size());
+        assertEquals(0.0, distances.get(1));
+        assertEquals(0.5, distances.get(2));
+    }
 }
 
