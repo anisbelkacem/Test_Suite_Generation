@@ -141,7 +141,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     public Object generateRandomValue(Class<?> type) {
         
         double nullProbability = 0.1;
-        if (random.random().nextDouble() < nullProbability && (type == Integer.class || type == Float.class || type == Double.class || type == Long.class || type == Short.class || type == Byte.class || type == Boolean.class)) {
+        if (random.random().nextDouble() < nullProbability && (type == Integer.class || type == String.class )) {
             return null;
         }
         //Randomness random = new Randomness();
@@ -154,12 +154,6 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         if (type == char.class || type == Character.class) return (char) random.random().nextInt(32, 127);
         if (type == byte.class || type == Byte.class) return (byte) random.random().nextInt(Byte.MIN_VALUE, Byte.MAX_VALUE);
         if (type == short.class || type == Short.class) return (short) random.random().nextInt(Short.MIN_VALUE, Short.MAX_VALUE);
-        if (type == BigDecimal.class) return new BigDecimal(random.random().nextDouble()).setScale(2, RoundingMode.HALF_UP);
-        if (type == BigInteger.class) return new BigInteger(130, random.random()); 
-        if (type == Date.class) return new Date(random.random().nextLong()); 
-        if (type == LocalDate.class) return LocalDate.ofEpochDay(random.random().nextLong()); 
-        if (type == LocalDateTime.class) return LocalDateTime.ofEpochSecond(random.random().nextLong(), 0, ZoneOffset.UTC);
-        if (type == Instant.class) return Instant.ofEpochSecond(random.random().nextLong()); 
         if (type == UUID.class) return UUID.randomUUID(); 
         return null;
     }
