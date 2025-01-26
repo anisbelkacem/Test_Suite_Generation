@@ -46,7 +46,25 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         int numberOfStat =60; 
         List<Statement> statements = new ArrayList<>();
         Object instance = Instance(statements);
+        Object instance1 = Instance(statements);
+        Object instance2 = Instance(statements);
         if (instance != null) { 
+            for (int i = 0; i < numberOfStat; i++) {
+                Statement statement = generateRandomStatement(instance);
+                if (statement != null) {
+                    statements.add(statement);
+                }
+            }
+        }
+        if (instance1 != null) { 
+            for (int i = 0; i < numberOfStat; i++) {
+                Statement statement = generateRandomStatement(instance);
+                if (statement != null) {
+                    statements.add(statement);
+                }
+            }
+        }
+        if (instance2 != null) { 
             for (int i = 0; i < numberOfStat; i++) {
                 Statement statement = generateRandomStatement(instance);
                 if (statement != null) {
