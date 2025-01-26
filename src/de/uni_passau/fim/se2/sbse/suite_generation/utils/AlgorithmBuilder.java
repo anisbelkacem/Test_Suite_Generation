@@ -1,6 +1,7 @@
 package de.uni_passau.fim.se2.sbse.suite_generation.utils;
 
 import de.uni_passau.fim.se2.sbse.suite_generation.algorithms.GeneticAlgorithm;
+import de.uni_passau.fim.se2.sbse.suite_generation.algorithms.MOSA;
 import de.uni_passau.fim.se2.sbse.suite_generation.algorithms.RandomSearch;
 //import de.uni_passau.fim.se2.sbse.suite_generation.algorithms.RandomSearch;
 import de.uni_passau.fim.se2.sbse.suite_generation.algorithms.SearchAlgorithmType;
@@ -99,7 +100,8 @@ public class AlgorithmBuilder {
      * @return the search algorithm
      */
     private GeneticAlgorithm<?> buildMOSA() {
-        throw new UnsupportedOperationException("build failed MOSA");
+        return new MOSA(random, stoppingCondition, populationSize, testGenerationTarget, branchTracer, branchesToCover);
+        //throw new UnsupportedOperationException("build failed MOSA");
 
     }
 
