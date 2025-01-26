@@ -43,7 +43,7 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     @Override
     public MyChromosome get() {
         //int numberOfStat = random.nextInt(50) + 1; 
-        int numberOfStat =60; 
+        int numberOfStat =30; 
         List<Statement> statements = new ArrayList<>();
         Object instance = Instance(statements);
         if (instance != null) { 
@@ -59,14 +59,14 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
     }
 
     public Statement generateRandomStatement(Object instance) {
-        //return generateMethodStatement(instance); 
-        double probability = random.nextDouble(); 
+        return generateMethodStatement(instance); 
+        /*double probability = random.nextDouble(); 
         double bias=random.nextDouble();
-        if (probability < bias) { 
+        if (probability < 0.5) { 
             return generateMethodStatement(instance); 
         } else {
             return generateAssignmentStatement(instance);
-        }
+        }*/
     }
 
     public MethodStat generateMethodStatement(Object targetObject) {
@@ -111,16 +111,11 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
         try {
             Constructor<?>[] constructs = CUT.getConstructors();
             if (constructs.length > 0) {
-                Constructor<?> construct=null;
-                for(Constructor<?> constr : constructs) {
-                    {
-                        if (Modifier.isPublic(constr.getModifiers()))
-                        {
-                            construct = constr;
-                            break;
-                        }
-                    }
+                Constructor<?> construct=constructs[Randomness.random().nextInt(constructs.length) ];
+                while(!Modifier.isPublic(construct.getModifiers())){
+                    construct=constructs[Randomness.random().nextInt(constructs.length)];
                 }
+                
                 Object[] parameters = generateRandomParameters(construct.getParameterTypes());
                 statements.add(new ConstructorStat(construct , parameters));
                 return construct.newInstance(parameters);
@@ -165,16 +160,14 @@ public class MyChromosomeGenerator implements ChromosomeGenerator<MyChromosome> 
 
     public String generateRandomString(Class<?> type) {
         Random random = new Random();
-        
         if (type == String.class) {
-            int length =random.nextInt(15) ;  
+            int length =random.nextInt(50) ;  
             StringBuilder sb = new StringBuilder(length);
-            String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/*-+.-_.:,;?«»()[]&$#!|";
             for (int i = 0; i < length; i++) {
                 int index = random.nextInt(characters.length());
                 sb.append(characters.charAt(index));
             }
-            
             return sb.toString(); 
         }
         

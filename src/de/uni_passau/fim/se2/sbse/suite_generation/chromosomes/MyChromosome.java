@@ -14,7 +14,7 @@ public class MyChromosome extends Chromosome<MyChromosome> {
 
     private final List<Statement> statements;
 
-    public MyChromosome( List<Statement> statements) {
+    public MyChromosome(List<Statement> statements) {
         this.statements = statements;
     }
 

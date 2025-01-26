@@ -24,7 +24,6 @@ public class SimpleExample {
         }
         return 0;
     }
-
     @Override
     public String toString() {
         return "SimpleExample";

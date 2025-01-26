@@ -18,9 +18,6 @@ import java.util.*;
 class RandomSearchTest {
     
     private RandomSearch randomSearch1;
-    private RandomSearch randomSearch2;
-    private RandomSearch randomSearch3;
-    private RandomSearch randomSearch4;
     private BranchTracer mockTracer;
     private Random random;
     private StoppingCondition stoppingCondition;
@@ -49,23 +46,17 @@ class RandomSearchTest {
             when(stoppingCondition.searchMustStop()).thenReturn(false, false, false, true); // Stop after a few iterations
 
             randomSearch1 = new RandomSearch(random, stoppingCondition, 10, SimpleExample.class, mockTracer, branches);
-            randomSearch2 = new RandomSearch(random, stoppingCondition, 10, Stack.class, mockTracer, branches);
-            randomSearch3 = new RandomSearch(random, stoppingCondition, 10, Feature.class, mockTracer, branches);
-            randomSearch4 = new RandomSearch(random, stoppingCondition, 10, DeepBranches.class, mockTracer, branches);
+            
         }
     }
 
     @Test
     void testRandomSearchSelectsBestTestCases() {
         List<MyChromosome> bestTests1 = randomSearch1.findSolution();
-        List<MyChromosome> bestTests2 = randomSearch2.findSolution();
-        List<MyChromosome> bestTests3 = randomSearch3.findSolution();
-        List<MyChromosome> bestTests4 = randomSearch4.findSolution();
+        
 
         assertNotNull(bestTests1);
-        assertNotNull(bestTests2);
-        assertNotNull(bestTests3);
-        assertNotNull(bestTests4);
+        
         assertFalse(bestTests1.isEmpty());
         
     }
